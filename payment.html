@@ -6,33 +6,53 @@
   <title>Payment - Nebula Store</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    .payment-box, .method-box, .upload-box {
-      background: rgba(255,255,255,0.1);
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    main {
+      flex: 1;
+      padding: 2rem 1rem;
+    }
+
+    .glass {
+      background: rgba(255, 255, 255, 0.1);
       backdrop-filter: blur(10px);
       border-radius: 15px;
       padding: 2rem;
       margin: 2rem auto;
       max-width: 600px;
-      box-shadow: 0 0 20px rgba(0,240,255,0.3);
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+      color: #fff;
     }
-    .method-box label {
+
+    .glass h2 {
+      margin-bottom: 1.5rem;
+      text-align: center;
+      color: #00f0ff;
+    }
+
+    .glass label {
       display: block;
-      margin: 0.5rem 0;
-      cursor: pointer;
-    }
-    #qrisImg, #rekeningInfo {
-      display: none;
       margin-top: 1rem;
+      font-weight: 600;
     }
-    #qrisImg img {
-      width: 200px;
-      border-radius: 10px;
-    }
-    input[type=file] {
+
+    .glass input,
+    .glass select,
+    .glass textarea {
+      width: 100%;
+      padding: 0.8rem;
       margin-top: 0.5rem;
+      border: none;
+      border-radius: 10px;
+      font-size: 1rem;
     }
-    button[type=submit] {
-      margin-top: 1.5rem;
+
+    .glass button {
+      margin-top: 2rem;
       width: 100%;
       padding: 0.8rem;
       border: none;
@@ -41,9 +61,29 @@
       color: #000;
       font-weight: bold;
       cursor: pointer;
+      transition: background 0.3s;
     }
-    button[type=submit]:hover {
+
+    .glass button:hover {
       background: #00c8d6;
+    }
+
+    #metodeInfo {
+      margin-top: 1rem;
+      font-size: 0.95rem;
+      color: #ffcc00;
+    }
+
+    #strukStatus {
+      text-align: center;
+      margin-top: 1rem;
+      font-weight: bold;
+    }
+
+    #qrisImg img {
+      width: 200px;
+      border-radius: 10px;
+      margin-top: 0.5rem;
     }
   </style>
 </head>
@@ -71,47 +111,45 @@
     </section>
 
     <!-- Pilih Produk -->
-    <div class="payment-box">
-      <h2>Pilih Produk</h2>
-      <select id="productSelect" class="u-full-width">
+    <div class="glass">
+      <h2>1. Pilih Produk</h2>
+      <select id="productSelect">
         <option value="" disabled selected>-- Pilih Produk --</option>
       </select>
       <p>Harga: <strong id="hargaTxt">-</strong></p>
     </div>
 
     <!-- Metode Pembayaran -->
-    <div class="method-box">
-      <h2>Metode Pembayaran</h2>
-      <label><input type="radio" name="metode" value="qris" onchange="tampilkanBayar()"> QRIS</label>
-      <label><input type="radio" name="metode" value="dana" onchange="tampilkanBayar()"> Dana</label>
-      <label><input type="radio" name="metode" value="gopay" onchange="tampilkanBayar()"> GoPay</label>
-      <label><input type="radio" name="metode" value="ovo" onchange="tampilkanBayar()"> OVO</label>
-
-      <div id="qrisImg">
-        <p>Scan kode QRIS berikut:</p>
-        <img src="assets/images/qris.jpg" alt="QRIS">
-      </div>
-      <div id="rekeningInfo"></div>
+    <div class="glass">
+      <h2>2. Metode Pembayaran</h2>
+      <select id="metodeSelect">
+        <option value="" disabled selected>-- Pilih Metode --</option>
+        <option value="qris">QRIS</option>
+        <option value="dana">Dana</option>
+        <option value="gopay">GoPay</option>
+        <option value="ovo">OVO</option>
+      </select>
+      <div id="metodeInfo"></div>
     </div>
 
-    <!-- Form Pembayaran -->
-    <div class="upload-box">
-      <h2>Data Pembayaran</h2>
+    <!-- Data Pembayaran -->
+    <div class="glass">
+      <h2>3. Data Pembayaran</h2>
       <form id="formPayment" onsubmit="handleBayar(event)">
         <label>Atas Nama Pengirim</label>
-        <input type="text" id="namaPengirim" required />
+        <input type="text" id="namaPengirim" placeholder="Contoh: Andi Wijaya" required />
 
         <label>Nomor WhatsApp</label>
-        <input type="tel" id="waPengirim" required />
+        <input type="tel" id="waPengirim" placeholder="Contoh: 6281234567890" required />
 
         <label>Username Telegram</label>
-        <input type="text" id="telePengirim" required />
+        <input type="text" id="telePengirim" placeholder="Contoh: @andi_wijaya" required />
 
         <label>Bukti Transfer (gambar)</label>
         <input type="file" id="buktiTF" accept="image/*" required />
 
         <button type="submit">Kirim & Buat Struk</button>
-        <p id="statusBayar"></p>
+        <p id="strukStatus"></p>
       </form>
     </div>
   </main>
@@ -131,17 +169,16 @@
 
   <script src="js/main.js"></script>
   <script>
-    // Isi pilihan produk + otomatis pilih dari parameter URL
+    // Isi pilihan produk
     const productSelect = document.getElementById("productSelect");
     const hargaTxt = document.getElementById("hargaTxt");
+    const urlParams = new URLSearchParams(location.search);
+    const prodParam = urlParams.get("product");
+    const priceParam = urlParams.get("price");
 
     fetch("data/products.json")
       .then(r => r.json())
       .then(data => {
-        const urlParams = new URLSearchParams(location.search);
-        const prodParam = urlParams.get("product");
-        const priceParam = urlParams.get("price");
-
         data.forEach(p => {
           const opt = document.createElement("option");
           opt.value = p.price;
@@ -149,7 +186,6 @@
           if (p.name === prodParam) opt.selected = true;
           productSelect.appendChild(opt);
         });
-
         if (prodParam && priceParam) {
           hargaTxt.textContent = `Rp${Number(priceParam).toLocaleString()}`;
         }
@@ -160,58 +196,51 @@
       hargaTxt.textContent = `Rp${harga.toLocaleString()}`;
     };
 
-    // Tampilkan QRIS atau nomor e-wallet
+    // Info metode bayar
+    const metodeSelect = document.getElementById("metodeSelect");
+    const metodeInfo = document.getElementById("metodeInfo");
     const dataRek = {
       dana: { nomor: "0857-1234-5678", atas: "A/N Reseller Gaming Dana" },
       gopay: { nomor: "0857-1234-5679", atas: "A/N Reseller Gaming GoPay" },
       ovo: { nomor: "0857-1234-5680", atas: "A/N Reseller Gaming OVO" }
     };
 
-    function tampilkanBayar() {
-      const metode = document.querySelector("[name=metode]:checked").value;
-      const qrisImg = document.getElementById("qrisImg");
-      const rekInfo = document.getElementById("rekeningInfo");
-
-      qrisImg.style.display = "none";
-      rekInfo.style.display = "none";
-
+    metodeSelect.onchange = () => {
+      const metode = metodeSelect.value;
       if (metode === "qris") {
-        qrisImg.style.display = "block";
-      } else {
+        metodeInfo.innerHTML = `<p>Scan kode QRIS berikut:</p><img src="assets/images/qris.jpg" alt="QRIS">`;
+      } else if (dataRek[metode]) {
         const rek = dataRek[metode];
-        rekInfo.innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
-        rekInfo.style.display = "block";
+        metodeInfo.innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
+      } else {
+        metodeInfo.innerHTML = "";
       }
-    }
+    };
 
-    // Handle submit pembayaran
+    // Handle submit
     async function handleBayar(e) {
       e.preventDefault();
-      const status = document.getElementById("statusBayar");
+      const status = document.getElementById("strukStatus");
 
       const produk = productSelect.options[productSelect.selectedIndex].text;
       const harga = Number(productSelect.value);
-      const metode = document.querySelector("[name=metode]:checked")?.value;
+      const metode = metodeSelect.value;
       const nama = document.getElementById("namaPengirim").value;
       const wa = document.getElementById("waPengirim").value;
       const tele = document.getElementById("telePengirim").value;
       const bukti = document.getElementById("buktiTF").files[0];
 
-      if (!metode) { status.textContent = "Pilih metode pembayaran!"; return; }
-      if (!bukti) { status.textContent = "Upload bukti transfer!"; return; }
+      if (!metode) { status.textContent = "❌ Pilih metode pembayaran!"; return; }
+      if (!bukti) { status.textContent = "❌ Upload bukti transfer!"; return; }
 
-      // Generate ID struk
       const idStruk = "RESMING-" + Math.floor(10000000 + Math.random() * 90000000);
-
-      // Baca gambar sebagai base64
       const reader = new FileReader();
+
       reader.onload = async function () {
         const base64 = reader.result.split(",")[1];
-
-        // Kirim ke Telegram Bot
         const botToken = "GANTI_BOT_TOKEN";
         const chatId = "GANTI_CHAT_ID";
-        const caption = `📄 Struk Pembayaran\n\nID: ${idStruk}\nProduk: ${produk}\nHarga: Rp${harga.toLocaleString()}\nMetode: ${metode.toUpperCase()}\nNama: ${nama}\nWA: ${wa}\nTele: @${tele}`;
+        const caption = `📄 Struk Pembayaran\n\nID: ${idStruk}\nProduk: ${produk}\nHarga: Rp${harga.toLocaleString()}\nMetode: ${metode.toUpperCase()}\nNama: ${nama}\nWA: ${wa}\nTele: ${tele}`;
 
         const formData = new FormData();
         formData.append("chat_id", chatId);
@@ -225,8 +254,9 @@
           });
           const data = await res.json();
           if (data.ok) {
-            status.innerHTML = `✅ Pembayaran terkirim! ID Struk: <strong>${idStruk}</strong>`;
+            status.innerHTML = `✅ Struk terkirim! ID: <strong>${idStruk}</strong>`;
             document.getElementById("formPayment").reset();
+            metodeInfo.innerHTML = "";
           } else {
             status.textContent = "❌ Gagal kirim ke Telegram.";
           }
@@ -239,4 +269,4 @@
     }
   </script>
 </body>
-  </html>
+              </html>
