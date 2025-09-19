@@ -353,27 +353,24 @@ footer {
   }
   }
 
-  /* Ikon media sosial tema nebula */
-.social-icons {
-  display: flex;
-  gap: 1rem;
-  justify-content: center;
-  margin-top: 1rem;
-}
-
-.social-icons a {
-  display: inline-block;
-  width: 36px;
-  height: 36px;
-  mask-size: contain;
-  mask-repeat: no-repeat;
-  background: #fff;
-  transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
-}
-
-.social-icons a:hover {
-  transform: scale(1.15);
-  background: #00f0ff;
-  box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-}
-
+‎/* ---------- WHATSAPP FLOAT ---------- */
+‎.wa-float {
+‎  position: fixed;
+‎  bottom: 25px;
+‎  right: 25px;
+‎  width: 60px;
+‎  height: 60px;
+‎  background: #25d366;
+‎  color: #fff;
+‎  border-radius: 50%;
+‎  display: grid;
+‎  place-items: center;
+‎  font-size: 1.7rem;
+‎  box-shadow: 0 4px 20px rgba(37, 211, 102, .5);
+‎  transition: var(--trans);
+‎  z-index: 1000;
+‎}
+‎.wa-float:hover {
+‎  transform: scale(1.1);
+‎}
+‎
