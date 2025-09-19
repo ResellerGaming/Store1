@@ -352,3 +352,28 @@ footer {
     grid-template-columns: 1fr;
   }
   }
+
+  /* Ikon media sosial tema nebula */
+.social-icons {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  margin-top: 1rem;
+}
+
+.social-icons a {
+  display: inline-block;
+  width: 36px;
+  height: 36px;
+  mask-size: contain;
+  mask-repeat: no-repeat;
+  background: #fff;
+  transition: transform 0.3s, background 0.3s, box-shadow 0.3s;
+}
+
+.social-icons a:hover {
+  transform: scale(1.15);
+  background: #00f0ff;
+  box-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
+}
+
