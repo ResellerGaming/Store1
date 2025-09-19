@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Nebula Store - Reseller Gaming</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="nebula-bg"></div>
+
+  <header>
+    <nav>
+      <div class="logo">Nebula Store</div>
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="produk.html">Produk</a></li>
+        <li><a href="bestseller.html">Best Seller</a></li>
+        <li><a href="flashsale.html">Flash Sale</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <div class="music-toggle" onclick="toggleMusic()">🎵</div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Selamat Datang di Nebula Store</h1>
+      <p>Toko gaming terpercaya dengan tema luar angkasa</p>
+      <input type="text" id="searchInput" placeholder="Cari produk..." onkeyup="liveSearch()" />
+      <div id="searchResults"></div>
+    </section>
+
+    <section class="best-seller">
+      <h2>🔥 Produk Best Seller</h2>
+      <div class="product-grid" id="bestSellerContainer"></div>
+    </section>
+
+    <section class="flash-sale">
+      <h2>⚡ Flash Sale</h2>
+      <div id="flashSaleTimer"></div>
+      <div class="product-grid" id="flashSaleContainer"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="social-icons">
+      <a href="https://wa.me/1234567890" target="_blank">📲</a>
+      <a href="https://t.me/resellergaming" target="_blank">✈️</a>
+      <a href="https://tiktok.com/@resellergaming" target="_blank">🎵</a>
+    </div>
+    <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
+  </footer>
+
+  <div id="adPopup" class="ad-popup">
+    <span class="close-btn" onclick="closeAd()">❌</span>
+    <p>🎮 Diskon 50% untuk semua headset gaming hari ini!</p>
+  </div>
+
+  <audio id="bgMusic" loop>
+    <source src="assets/music/nebula.mp3" type="audio/mp3" />
+  </audio>
+
+  <script src="js/main.js"></script>
+  <script src="js/search.js"></script>
+  <script src="js/flashsale.js"></script>
+</body>
+</html>
