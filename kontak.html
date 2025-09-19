@@ -30,35 +30,88 @@
       <h1>Kontak Kami</h1>
     </section>
 
-    <section class="kontak-form">
-      <form onsubmit="handleSubmit(event)">
-        <label>Nama:</label>
-        <input type="text" required />
-        <label>Email:</label>
-        <input type="email" required />
-        <label>Pesan:</label>
-        <textarea required></textarea>
-        <button type="submit">Kirim Pesan</button>
-      </form>
+    <section class="kontak-wrapper">
+      <!-- Tombol Kontak Langsung -->
+      <div class="kontak-buttons">
+        <a href="https://wa.me/6281234567890" target="_blank" class="kontak-btn wa">📲 WhatsApp</a>
+        <a href="https://whatsapp.com/channel/invite-link" target="_blank" class="kontak-btn wa-channel">📢 Channel WA</a>
+        <a href="https://t.me/username" target="_blank" class="kontak-btn tele">✈️ Telegram</a>
+        <a href="https://t.me/channel-link" target="_blank" class="kontak-btn tele-channel">📡 Channel Telegram</a>
+      </div>
+
+      <!-- Form Pesan -->
+      <div class="form-box">
+        <h2>Kirim Pesan ke Telegram</h2>
+        <form id="telegramForm">
+          <label>Nama:</label>
+          <input type="text" id="nama" required />
+          <label>Email:</label>
+          <input type="email" id="email" required />
+          <label>Pesan:</label>
+          <textarea id="pesan" required></textarea>
+          <button type="submit">Kirim Pesan</button>
+        </form>
+        <p id="formStatus"></p>
+      </div>
     </section>
   </main>
 
   <footer>
     <div class="social-icons">
-      <a href="https://wa.me/1234567890" target="_blank">📲</a>
-      <a href="https://t.me/resellergaming" target="_blank">✈️</a>
+      <a href="https://wa.me/6281234567890" target="_blank">📲</a>
+      <a href="https://t.me/username" target="_blank">✈️</a>
       <a href="https://tiktok.com/@resellergaming" target="_blank">🎵</a>
     </div>
     <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
   </footer>
 
+  <audio id="bgMusic" loop>
+    <source src="assets/music/nebula.mp3" type="audio/mp3" />
+  </audio>
+
   <script src="js/main.js"></script>
   <script>
-    function handleSubmit(e) {
+    // Kirim pesan ke Telegram via bot
+    const botToken = "GANTI_DENGAN_BOT_TOKEN_ANDA";
+    const chatId = "GANTI_DENGAN_CHAT_ID_ANDA";
+
+    document.getElementById("telegramForm").addEventListener("submit", function (e) {
       e.preventDefault();
-      alert("Terima kasih! Pesan Anda telah terkirim.");
-      e.target.reset();
-    }
+
+      const nama = document.getElementById("nama").value;
+      const email = document.getElementById("email").value;
+      const pesan = document.getElementById("pesan").value;
+      const status = document.getElementById("formStatus");
+
+      const text = `📩 Pesan Baru\n\nNama: ${nama}\nEmail: ${email}\nPesan: ${pesan}`;
+
+      fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: text
+        })
+      })
+      .then(response => response.json())
+      .then(data => {
+        if (data.ok) {
+          status.textContent = "✅ Pesan berhasil dikirim!";
+          status.style.color = "#00ff00";
+          document.getElementById("telegramForm").reset();
+        } else {
+          status.textContent = "❌ Gagal mengirim pesan.";
+          status.style.color = "#ff0000";
+        }
+      })
+      .catch(error => {
+        status.textContent = "❌ Terjadi kesalahan.";
+        status.style.color = "#ff0000";
+        console.error(error);
+      });
+    });
   </script>
 </body>
-</html>
+</html>                                                                                                                </html>
