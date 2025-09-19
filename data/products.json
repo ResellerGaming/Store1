@@ -1,0 +1,27 @@
+[
+  {
+    "id": 1,
+    "name": "Nebula Headset RGB",
+    "price": 250000,
+    "image": "assets/images/headset.jpg",
+    "isBestSeller": true,
+    "isFlashSale": true,
+    "flashSaleUntil": "2025-09-20T23:59:59"
+  },
+  {
+    "id": 2,
+    "name": "Nebula Mouse Wireless",
+    "price": 150000,
+    "image": "assets/images/mouse.jpg",
+    "isBestSeller": true,
+    "isFlashSale": false
+  },
+  {
+    "id": 3,
+    "name": "Nebula Keyboard Mechanical",
+    "price": 350000,
+    "image": "assets/images/keyboard.jpg",
+    "isBestSeller": false,
+    "isFlashSale": true
+  }
+]
