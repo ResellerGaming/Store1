@@ -5,6 +5,74 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Produk - Nebula Store</title>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .product-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1rem;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+    }
+
+    .product-card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .product-card p {
+      font-size: 1rem;
+      color: #00f0ff;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+
+    .btn-bayar {
+      background: #00f0ff;
+      color: #000;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+
+    .btn-bayar:hover {
+      background: #00c8d6;
+    }
+
+    .all-products {
+      padding: 2rem 1rem;
+    }
+
+    #searchInput {
+      display: block;
+      margin: 0 auto 2rem;
+      padding: 0.8rem 1.2rem;
+      width: 350px;
+      max-width: 90%;
+      border: none;
+      border-radius: 25px;
+      font-size: 1rem;
+    }
+  </style>
 </head>
 <body>
   <div class="nebula-bg"></div>
@@ -29,7 +97,6 @@
     <section class="hero">
       <h1>Semua Produk</h1>
       <input type="text" id="searchInput" placeholder="Cari produk..." onkeyup="liveSearch()" />
-      <div id="searchResults"></div>
     </section>
 
     <section class="all-products">
@@ -53,7 +120,7 @@
   <script src="js/main.js"></script>
   <script>
     // Muat semua produk
-    fetch('data/products.json')
+    fetch("data/products.json")
       .then(res => res.json())
       .then(data => {
         const container = document.getElementById("allProductsContainer");
@@ -63,19 +130,25 @@
     function createProductCard(product) {
       const card = document.createElement("div");
       card.className = "product-card";
+
       card.innerHTML = `
         <img src="${product.image}" alt="${product.name}" />
         <h3>${product.name}</h3>
         <p>Rp${product.price.toLocaleString()}</p>
+        <button class="btn-bayar" onclick="lanjutBayar('${product.name}', ${product.price})">Lanjut Bayar</button>
       `;
       return card;
+    }
+
+    function lanjutBayar(nama, harga) {
+      location.href = `payment.html?product=${encodeURIComponent(nama)}&price=${harga}`;
     }
 
     // Live search (opsional)
     function liveSearch() {
       const query = document.getElementById("searchInput").value.toLowerCase();
       const container = document.getElementById("allProductsContainer");
-      fetch('data/products.json')
+      fetch("data/products.json")
         .then(res => res.json())
         .then(data => {
           const filtered = data.filter(p => p.name.toLowerCase().includes(query));
@@ -85,4 +158,4 @@
     }
   </script>
 </body>
-  </html>
+</html>
