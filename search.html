@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hasil Pencarian - Nebula Store</title>
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="nebula-bg"></div>
+
+  <header>
+    <nav>
+      <div class="logo">Nebula Store</div>
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+      <ul class="nav-links" id="navLinks">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="produk.html">Produk</a></li>
+        <li><a href="bestseller.html">Best Seller</a></li>
+        <li><a href="flashsale.html">Flash Sale</a></li>
+        <li><a href="blog.html">Blog</a></li>
+        <li><a href="kontak.html">Kontak</a></li>
+      </ul>
+      <div class="music-toggle" onclick="toggleMusic()">🎵</div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Hasil Pencarian</h1>
+      <input type="text" id="searchInput" placeholder="Cari produk..." onkeyup="liveSearch()" />
+      <div id="searchResults"></div>
+    </section>
+
+    <section class="search-results">
+      <div class="product-grid" id="searchResultsContainer"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="social-icons">
+      <a href="https://wa.me/1234567890" target="_blank">📲</a>
+      <a href="https://t.me/resellergaming" target="_blank">✈️</a>
+      <a href="https://tiktok.com/@resellergaming" target="_blank">🎵</a>
+    </div>
+    <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
+  </footer>
+
+  <script src="js/main.js"></script>
+  <script src="js/search.js"></script>
+</body>
+</html>
