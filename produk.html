@@ -39,14 +39,50 @@
 
   <footer>
     <div class="social-icons">
-      <a href="https://wa.me/1234567890" target="_blank">📲</a>
-      <a href="https://t.me/resellergaming" target="_blank">✈️</a>
+      <a href="https://wa.me/6281234567890" target="_blank">📲</a>
+      <a href="https://t.me/username" target="_blank">✈️</a>
       <a href="https://tiktok.com/@resellergaming" target="_blank">🎵</a>
     </div>
     <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
   </footer>
 
+  <audio id="bgMusic" loop>
+    <source src="assets/music/nebula.mp3" type="audio/mp3" />
+  </audio>
+
   <script src="js/main.js"></script>
-  <script src="js/search.js"></script>
+  <script>
+    // Muat semua produk
+    fetch('data/products.json')
+      .then(res => res.json())
+      .then(data => {
+        const container = document.getElementById("allProductsContainer");
+        data.forEach(p => container.appendChild(createProductCard(p)));
+      });
+
+    function createProductCard(product) {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+        <p>Rp${product.price.toLocaleString()}</p>
+      `;
+      return card;
+    }
+
+    // Live search (opsional)
+    function liveSearch() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const container = document.getElementById("allProductsContainer");
+      fetch('data/products.json')
+        .then(res => res.json())
+        .then(data => {
+          const filtered = data.filter(p => p.name.toLowerCase().includes(query));
+          container.innerHTML = "";
+          filtered.forEach(p => container.appendChild(createProductCard(p)));
+        });
+    }
+  </script>
 </body>
-</html>
+  </html>
