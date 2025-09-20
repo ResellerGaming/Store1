@@ -451,3 +451,97 @@ footer {
   from { transform: rotate(0deg); }
   to { transform: rotate(360deg); }
 }
+
+/* ===== RESPONSIVE PAYMENT BOX ===== */
+.payment-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 2rem 1rem;
+  max-width: 900px;
+  margin: auto;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+  color: #fff;
+  word-break: break-word;
+}
+
+.glass h2 {
+  margin-bottom: 1rem;
+  color: #00f0ff;
+  text-align: center;
+}
+
+.glass label {
+  display: block;
+  margin-top: 1rem;
+  font-weight: 600;
+}
+
+.glass input,
+.glass select,
+.glass textarea {
+  width: 100%;
+  padding: 0.8rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 10px;
+  font-size: 1rem;
+}
+
+.glass button {
+  margin-top: 1.5rem;
+  width: 100%;
+  padding: 0.8rem;
+  border: none;
+  border-radius: 10px;
+  background: #00f0ff;
+  color: #000;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s, box-shadow 0.3s;
+}
+
+.glass button:hover {
+  background: #00c8d6;
+  box-shadow: 0 0 15px #00f0ff;
+}
+
+#metodeInfo {
+  margin-top: 1rem;
+  font-size: 0.95rem;
+  color: #ffcc00;
+  word-break: break-all;
+}
+
+#qrisImg img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin-top: 0.5rem;
+}
+
+#strukStatus {
+  text-align: center;
+  margin-top: 1rem;
+  font-weight: bold;
+}
+
+/* ===== MOBILE FIRST ===== */
+@media (max-width: 600px) {
+  .payment-wrapper {
+    padding: 1rem;
+  }
+  .glass {
+    padding: 1rem;
+  }
+  #qrisImg img {
+    max-width: 250px;
+  }
+  }
