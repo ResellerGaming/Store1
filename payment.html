@@ -6,132 +6,21 @@
   <title>Payment - Nebula Store</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    body {
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
-    }
-
-    main {
-      flex: 1;
-      padding: 2rem 1rem;
-    }
-
-/* ===== RESPONSIVE PAYMENT BOX ===== */
-.payment-wrapper {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding: 2rem 1rem;
-  max-width: 900px;
-  margin: auto;
-}
-
-.glass {
-  background: rgba(255, 255, 255, 0.1);
-  backdrop-filter: blur(10px);
-  border-radius: 15px;
-  padding: 1.5rem;
-  box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
-  color: #fff;
-  word-break: break-word;
-}
-
-.glass h2 {
-  margin-bottom: 1rem;
-  color: #00f0ff;
-  text-align: center;
-}
-
-.glass label {
-  display: block;
-  margin-top: 1rem;
-  font-weight: 600;
-}
-
-.glass input,
-.glass select,
-.glass textarea {
-  width: 100%;
-  padding: 0.8rem;
-  margin-top: 0.5rem;
-  border: none;
-  border-radius: 10px;
-  font-size: 1rem;
-}
-
-.glass button {
-  margin-top: 1.5rem;
-  width: 100%;
-  padding: 0.8rem;
-  border: none;
-  border-radius: 10px;
-  background: #00f0ff;
-  color: #000;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background 0.3s, box-shadow 0.3s;
-}
-
-.glass button:hover {
-  background: #00c8d6;
-  box-shadow: 0 0 15px #00f0ff;
-}
-
-#metodeInfo {
-  margin-top: 1rem;
-  font-size: 0.95rem;
-  color: #ffcc00;
-  word-break: break-all;
-}
-
-#qrisImg img {
-  max-width: 100%;
-  height: auto;
-  border-radius: 10px;
-  margin-top: 0.5rem;
-}
-
-#strukStatus {
-  text-align: center;
-  margin-top: 1rem;
-  font-weight: bold;
-}
-
-/* ===== MOBILE FIRST ===== */
-@media (max-width: 600px) {
-  .payment-wrapper {
-    padding: 1rem;
-  }
-  .glass {
-    padding: 1rem;
-  }
-  #qrisImg img {
-    max-width: 250px;
-  }
-    }
-
-  /* ===== QRIS BOX - TIDAK KELUAR LAYAR ===== */
-#qrisBox {
-  margin-top: 1rem;
-  text-align: center;
-}
-
-#qrisBox img {
-  max-width: 100%;
-  height: auto;
-  max-height: 300px; /* batas tinggi */
-  border-radius: 10px;
-  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
-}
-
-/* ===== RESPONSIVE ===== */
-@media (max-width: 600px) {
-  #qrisBox img {
-    max-height: 200px; /* lebih kecil di hp */
-  }
-    }
-
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    main { flex: 1; padding: 2rem 1rem; }
+    .payment-wrapper { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem; max-width: 900px; margin: auto; }
+    .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 1.5rem; box-shadow: 0 0 20px rgba(0,240,255,0.3); color: #fff; word-break: break-word; }
+    .glass h2 { margin-bottom: 1rem; color: #00f0ff; text-align: center; }
+    .glass label { display: block; margin-top: 1rem; font-weight: 600; }
+    .glass input, .glass select, .glass textarea { width: 100%; padding: 0.8rem; margin-top: 0.5rem; border: none; border-radius: 10px; font-size: 1rem; }
+    .glass button { margin-top: 1.5rem; width: 100%; padding: 0.8rem; border: none; border-radius: 10px; background: #00f0ff; color: #000; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
+    .glass button:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
+    #metodeInfo { margin-top: 1rem; font-size: 0.95rem; color: #ffcc00; }
+    #qrisBox { display: none; text-align: center; }
+    #qrisBox img { max-width: 100%; height: auto; max-height: 300px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,240,255,0.5); }
+    #rekInfo { display: none; }
+    #strukStatus { text-align: center; margin-top: 1rem; font-weight: bold; }
+    @media (max-width: 600px) { .payment-wrapper { padding: 1rem; } .glass { padding: 1rem; } #qrisBox img { max-height: 200px; } }
   </style>
 </head>
 <body>
@@ -140,156 +29,73 @@
   <header>
     <nav>
       <div class="logo">Nebula Store</div>
-      <ul class="nav-links">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="produk.html">Produk</a></li>
-        <li><a href="bestseller.html">Best Seller</a></li>
-        <li><a href="flashsale.html">Flash Sale</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="kontak.html">Kontak</a></li>
-      </ul>
-      <div class="music-toggle" onclick="toggleMusic()">🎵</div>
+      <ul class="nav-links"><li><a href="index">Home</a></li><li><a href="produk">Produk</a></li><li><a href="bestseller">Best Seller</a></li><li><a href="flashsale">Flash Sale</a></li><li><a href="blog">Blog</a></li><li><a href="kontak">Kontak</a></li></ul>
+      <div class="music-toggle" onclick="toggleMusic()"><img id="musicIcon" src="https://cdn-icons-png.flaticon.com/512/1822/1822614.png" alt="Music" /></div>
     </nav>
   </header>
 
- <main>
-  <section class="hero">
-    <h1>Pembayaran</h1>
-  </section>
-
-  <div class="payment-wrapper">
-    <!-- Pilih Produk -->
-    <div class="glass">
-      <h2>1. Pilih Produk</h2>
-      <select id="productSelect">
-        <option value="" disabled selected>-- Pilih Produk --</option>
-      </select>
-      <p>Harga: <strong id="hargaTxt">-</strong></p>
+  <main>
+    <section class="hero"><h1>Pembayaran</h1></section>
+    <div class="payment-wrapper">
+      <div class="glass"><h2>1. Pilih Produk</h2><select id="productSelect"><option value="" disabled selected>-- Pilih Produk --</option></select><p>Harga: <strong id="hargaTxt">-</strong></p></div>
+      <div class="glass"><h2>2. Metode Pembayaran</h2><select id="metodeSelect"><option value="" disabled selected>-- Pilih Metode --</option><option value="qris">QRIS</option><option value="dana">Dana</option><option value="gopay">GoPay</option><option value="ovo">OVO</option></select><div id="metodeInfo"><div id="qrisBox" style="display:none;"><p>Scan kode QRIS berikut:</p><img src="assets/images/qris.jpg" alt="QRIS" /></div><div id="rekInfo" style="display:none;"></div></div></div>
+      <div class="glass"><h2>3. Data Pembayaran</h2><form id="formPayment" onsubmit="handleBayar(event)"><label>Atas Nama Pengirim</label><input type="text" id="namaPengirim" placeholder="Contoh: Andi Wijaya" required /><label>Nomor WhatsApp</label><input type="tel" id="waPengirim" placeholder="Contoh: 6281234567890" required /><label>Username Telegram</label><input type="text" id="telePengirim" placeholder="Contoh: @andi_wijaya" required /><label>Bukti Transfer (gambar)</label><input type="file" id="buktiTF" accept="image/*" required /><button type="submit">Kirim & Buat Struk</button><p id="strukStatus"></p></form></div>
     </div>
-
-    <!-- Metode Pembayaran -->
-    <div class="glass">
-      <h2>2. Metode Pembayaran</h2>
-      <select id="metodeSelect">
-        <option value="" disabled selected>-- Pilih Metode --</option>
-        <option value="qris">QRIS</option>
-        <option value="dana">Dana</option>
-        <option value="gopay">GoPay</option>
-        <option value="ovo">OVO</option>
-      </select>
-      <div id="metodeInfo">
-  <div id="qrisBox" style="display:none;">
-    <p>Scan kode QRIS berikut:</p>
-    <img src="assets/images/qris.jpg" alt="QRIS" />
-  </div>
-  <div id="rekInfo" style="display:none;"></div>
-      </div>
-    </div>
-
-    <!-- Data Pembayaran -->
-    <div class="glass">
-      <h2>3. Data Pembayaran</h2>
-      <form id="formPayment" onsubmit="handleBayar(event)">
-        <label>Atas Nama Pengirim</label>
-        <input type="text" id="namaPengirim" placeholder="Contoh: Andi Wijaya" required />
-
-        <label>Nomor WhatsApp</label>
-        <input type="tel" id="waPengirim" placeholder="Contoh: 6281234567890" required />
-
-        <label>Username Telegram</label>
-        <input type="text" id="telePengirim" placeholder="Contoh: @andi_wijaya" required />
-
-        <label>Bukti Transfer (gambar)</label>
-        <input type="file" id="buktiTF" accept="image/*" required />
-
-        <button type="submit">Kirim & Buat Struk</button>
-        <p id="strukStatus"></p>
-      </form>
-    </div>
-  </div>
-</main>
+  </main>
 
   <footer>
     <div class="social-icons">
-      <a href="https://wa.me/6281234567890" target="_blank">📲</a>
-      <a href="https://t.me/username" target="_blank">✈️</a>
-      <a href="https://tiktok.com/@resellergaming" target="_blank">🎵</a>
+      <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" /></a>
+      <a href="https://t.me/username" target="_blank" title="Telegram"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" /></a>
+      <a href="https://tiktok.com/@resellergaming" target="_blank" title="TikTok"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok" /></a>
     </div>
     <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
   </footer>
 
-  <audio id="bgMusic" loop>
-    <source src="assets/music/nebula.mp3" type="audio/mp3" />
-  </audio>
-
+  <audio id="bgMusic" loop><source src="assets/music/nebula.mp3" type="audio/mp3" /></audio>
   <script src="js/main.js"></script>
   <script>
-    // Isi pilihan produk
     const productSelect = document.getElementById("productSelect");
     const hargaTxt = document.getElementById("hargaTxt");
     const urlParams = new URLSearchParams(location.search);
     const prodParam = urlParams.get("product");
     const priceParam = urlParams.get("price");
-
-    fetch("data/products.json")
-      .then(r => r.json())
-      .then(data => {
-        data.forEach(p => {
-          const opt = document.createElement("option");
-          opt.value = p.price;
-          opt.textContent = p.name;
-          if (p.name === prodParam) opt.selected = true;
-          productSelect.appendChild(opt);
-        });
-        if (prodParam && priceParam) {
-          hargaTxt.textContent = `Rp${Number(priceParam).toLocaleString()}`;
-        }
+    fetch("data/products.json").then(r => r.json()).then(data => {
+      data.forEach(p => {
+        const opt = document.createElement("option");
+        opt.value = p.price; opt.textContent = p.name;
+        if (p.name === prodParam) opt.selected = true;
+        productSelect.appendChild(opt);
       });
-
+      if (prodParam && priceParam) hargaTxt.textContent = `Rp${Number(priceParam).toLocaleString()}`;
+    });
     productSelect.onchange = () => {
       const harga = Number(productSelect.value);
       hargaTxt.textContent = `Rp${harga.toLocaleString()}`;
     };
 
-    // Info metode bayar
     const metodeSelect = document.getElementById("metodeSelect");
-    const metodeInfo = document.getElementById("metodeInfo");
     const dataRek = {
       dana: { nomor: "0857-1234-5678", atas: "A/N Reseller Gaming Dana" },
       gopay: { nomor: "0857-1234-5679", atas: "A/N Reseller Gaming GoPay" },
       ovo: { nomor: "0857-1234-5680", atas: "A/N Reseller Gaming OVO" }
     };
-
     metodeSelect.onchange = () => {
       const metode = metodeSelect.value;
       const qrisBox = document.getElementById("qrisBox");
-const rekInfo = document.getElementById("rekInfo");
-
-if (metode === "qris") {
-  qrisBox.style.display = "block";
-  rekInfo.style.display = "none";
-} else if (dataRek[metode]) {
-  const rek = dataRek[metode];
-  rekInfo.innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
-  rekInfo.style.display = "block";
-  qrisBox.style.display = "none";
-} else {
-  qrisBox.style.display = "none";
-  rekInfo.style.display = "none";
-    }
-      } else if (dataRek[metode]) {
+      const rekInfo = document.getElementById("rekInfo");
+      qrisBox.style.display = rekInfo.style.display = "none";
+      if (metode === "qris") qrisBox.style.display = "block";
+      else if (dataRek[metode]) {
         const rek = dataRek[metode];
-        metodeInfo.innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
-      } else {
-        metodeInfo.innerHTML = "";
+        rekInfo.innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
+        rekInfo.style.display = "block";
       }
     };
 
-    // Handle submit
     async function handleBayar(e) {
       e.preventDefault();
       const status = document.getElementById("strukStatus");
-
       const produk = productSelect.options[productSelect.selectedIndex].text;
       const harga = Number(productSelect.value);
       const metode = metodeSelect.value;
@@ -297,37 +103,28 @@ if (metode === "qris") {
       const wa = document.getElementById("waPengirim").value;
       const tele = document.getElementById("telePengirim").value;
       const bukti = document.getElementById("buktiTF").files[0];
-
       if (!metode) { status.textContent = "❌ Pilih metode pembayaran!"; return; }
       if (!bukti) { status.textContent = "❌ Upload bukti transfer!"; return; }
-
       const idStruk = "RESMING-" + Math.floor(10000000 + Math.random() * 90000000);
       const reader = new FileReader();
-
-      reader.onload = async function () {
+      reader.onload = async () => {
         const base64 = reader.result.split(",")[1];
         const botToken = "GANTI_BOT_TOKEN";
         const chatId = "GANTI_CHAT_ID";
         const caption = `📄 Struk Pembayaran\n\nID: ${idStruk}\nProduk: ${produk}\nHarga: Rp${harga.toLocaleString()}\nMetode: ${metode.toUpperCase()}\nNama: ${nama}\nWA: ${wa}\nTele: ${tele}`;
-
         const formData = new FormData();
         formData.append("chat_id", chatId);
         formData.append("caption", caption);
         formData.append("photo", `data:image/jpeg;base64,${base64}`);
-
         try {
-          const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
-            method: "POST",
-            body: formData
-          });
+          const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: formData });
           const data = await res.json();
           if (data.ok) {
             status.innerHTML = `✅ Struk terkirim! ID: <strong>${idStruk}</strong>`;
             document.getElementById("formPayment").reset();
-            metodeInfo.innerHTML = "";
-          } else {
-            status.textContent = "❌ Gagal kirim ke Telegram.";
-          }
+            document.getElementById("qrisBox").style.display = "none";
+            document.getElementById("rekInfo").style.display = "none";
+          } else status.textContent = "❌ Gagal kirim ke Telegram.";
         } catch (err) {
           status.textContent = "❌ Error jaringan.";
           console.error(err);
@@ -337,4 +134,4 @@ if (metode === "qris") {
     }
   </script>
 </body>
-              </html>
+  </html>
