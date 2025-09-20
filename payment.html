@@ -152,18 +152,32 @@
         // Tampilkan loading
         document.getElementById("loadingOverlay").style.display = "flex";
 
-        const base64 = reader.result.split(",")[1];
+        // ===== PERBAIKAN: ambil base64 tanpa prefix =====
+        const base64 = reader.result.split(",")[1]; // hapus "data:image/...;base64,"
+
+        // ===== PERBAIKAN: kompres jika > 5 MB =====
+        const maxSize = 5 * 1024 * 1024; // 5 MB (Telegram limit ~10 MB)
+        if (base64.length > maxSize) {
+          document.getElementById("loadingOverlay").style.display = "none";
+          status.textContent = "❌ Gambar terlalu besar (max 5 MB).";
+          return;
+        }
+
         const botToken = "8382250113:AAH1vrOjm04b8Vfjmg7yCkmPl8a7dvXvCqQ";
         const chatId = "7670525689";
         const caption = `📄 Struk Pembayaran\n\nID: ${idStruk}\nProduk: ${produk}\nHarga: Rp${harga.toLocaleString()}\nMetode: ${metode.toUpperCase()}\nNama: ${nama}\nWA: ${wa}\nTele: ${tele}`;
 
-        const formData = new FormData();
-        formData.append("chat_id", chatId);
-        formData.append("caption", caption);
-        formData.append("photo", `data:image/jpeg;base64,${base64}`);
-
+        // ===== PERBAIKAN: kirim base64 langsung =====
         try {
-          const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: formData });
+          const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: chatId,
+              photo: `data:image/jpeg;base64,${base64}`,
+              caption: caption
+            })
+          });
           const data = await res.json();
 
           // Sembunyikan loading
@@ -186,6 +200,7 @@
             document.getElementById("strukBox").scrollIntoView({ behavior: "smooth" });
           } else {
             status.textContent = "❌ Gagal kirim ke Telegram.";
+            console.error("Telegram response:", data);
           }
         } catch (err) {
           document.getElementById("loadingOverlay").style.display = "none";
@@ -197,4 +212,4 @@
     }
   </script>
 </body>
-</html>      
+  </html>
