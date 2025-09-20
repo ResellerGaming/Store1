@@ -61,7 +61,7 @@
     <!-- Form Pembayaran -->
     <div class="payment-wrapper">
       <div class="glass"><h2>1. Pilih Produk</h2><select id="productSelect"><option value="" disabled selected>-- Pilih Produk --</option></select><p>Harga: <strong id="hargaTxt">-</strong></p></div>
-      <div class="glass"><h2>2. Metode Pembayaran</h2><select id="metodeSelect"><option value="" disabled selected>-- Pilih Metode --</option><option value="qris">QRIS</option><option value="dana">Dana</option><option value="gopay">GoPay</option><option value="ovo">OVO</option></select><div id="metodeInfo"><div id="qrisBox" style="display:none;"><p>Scan kode QRIS berikut:</p><img src="assets/images/qris.jpg" alt="QRIS" /></div><div id="rekInfo" style="display:none;"></div></div></div>
+      <div class="glass"><h2>2. Metode Pembayaran</h2><select id="metodeSelect"><option value="" disabled selected>-- Pilih Metode --</option><option value="dana">Dana</option><option value="gopay">GoPay</option><option value="ovo">OVO</option><option value="qris">QRIS</option></select><div id="metodeInfo"><div id="qrisBox" style="display:none;"><p>Scan kode QRIS berikut:</p><img src="assets/images/qris.jpg" alt="QRIS" /></div><div id="rekInfo" style="display:none;"></div></div></div>
       <div class="glass"><h2>3. Data Pembayaran</h2><form id="formPayment" onsubmit="handleBayar(event)"><label>Atas Nama Pengirim</label><input type="text" id="namaPengirim" placeholder="Contoh: Andi Wijaya" required /><label>Nomor WhatsApp</label><input type="tel" id="waPengirim" placeholder="Contoh: 6281234567890" required /><label>Username Telegram</label><input type="text" id="telePengirim" placeholder="Contoh: @andi_wijaya" required /><label>Bukti Transfer (gambar)</label><input type="file" id="buktiTF" accept="image/*" required /><button type="submit">Kirim & Buat Struk</button><p id="strukStatus"></p></form></div>
     </div>
 
@@ -94,30 +94,41 @@
   <audio id="bgMusic" loop><source src="assets/music/nebula.mp3" type="audio/mp3" /></audio>
   <script src="js/main.js"></script>
   <script>
+    // ===== DATA PRODUK (lokal) =====
+    const products = [
+      { id: 1, name: "Nebula Headset RGB", price: 250000, image: "assets/images/headset.jpg", isBestSeller: true, isFlashSale: true },
+      { id: 2, name: "Nebula Mouse Wireless", price: 150000, image: "assets/images/mouse.jpg", isBestSeller: true, isFlashSale: false },
+      { id: 3, name: "Nebula Keyboard Mechanical", price: 350000, image: "assets/images/keyboard.jpg", isBestSeller: false, isFlashSale: true }
+    ];
+
+    // ===== ISI PILIHAN PRODUK =====
     const productSelect = document.getElementById("productSelect");
     const hargaTxt = document.getElementById("hargaTxt");
     const urlParams = new URLSearchParams(location.search);
     const prodParam = urlParams.get("product");
     const priceParam = urlParams.get("price");
-    fetch("data/products.json").then(r => r.json()).then(data => {
-      data.forEach(p => {
-        const opt = document.createElement("option");
-        opt.value = p.price; opt.textContent = p.name;
-        if (p.name === prodParam) opt.selected = true;
-        productSelect.appendChild(opt);
-      });
-      if (prodParam && priceParam) hargaTxt.textContent = `Rp${Number(priceParam).toLocaleString()}`;
+
+    // Isi dropdown
+    products.forEach(p => {
+      const opt = document.createElement("option");
+      opt.value = p.price;
+      opt.textContent = p.name;
+      if (p.name === prodParam) opt.selected = true;
+      productSelect.appendChild(opt);
     });
+    if (prodParam && priceParam) hargaTxt.textContent = `Rp${Number(priceParam).toLocaleString()}`;
+
     productSelect.onchange = () => {
       const harga = Number(productSelect.value);
       hargaTxt.textContent = `Rp${harga.toLocaleString()}`;
     };
 
+    // ===== METODE BAYAR =====
     const metodeSelect = document.getElementById("metodeSelect");
     const dataRek = {
       dana: { nomor: "0857-1234-5678", atas: "A/N Reseller Gaming Dana" },
       gopay: { nomor: "0857-1234-5679", atas: "A/N Reseller Gaming GoPay" },
-      ovo: { nomor: "0857-1234-5680", atas: "A/N Reseller Gaming OVO" )
+      ovo: { nomor: "0857-1234-5680", atas: "A/N Reseller Gaming OVO" }
     };
     metodeSelect.onchange = () => {
       const metode = metodeSelect.value;
@@ -132,6 +143,7 @@
       }
     };
 
+    // ===== KIRIM KE TELEGRAM (base64 + kompres) =====
     async function handleBayar(e) {
       e.preventDefault();
       const status = document.getElementById("strukStatus");
@@ -214,4 +226,4 @@
     }
   </script>
 </body>
-  </html>
+                                                                                                                                       </html>
