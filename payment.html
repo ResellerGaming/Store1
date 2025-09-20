@@ -202,11 +202,12 @@
             status.textContent = "❌ Gagal kirim ke Telegram.";
             console.error("Telegram response:", data);
           }
-        } catch (err) {
-          document.getElementById("loadingOverlay").style.display = "none";
-          status.textContent = "❌ Error jaringan.";
-          console.error(err);
-        }
+        } else {
+  status.textContent = "❌ Gagal kirim ke Telegram.";
+  console.error("❌ Telegram response:", data);
+  console.error("❌ Description:", data.description); // pesan error Telegram
+  console.error("❌ Full JSON:", JSON.stringify(data, null, 2)); // semua detail
+    }
       };
       reader.readAsDataURL(bukti);
     }
