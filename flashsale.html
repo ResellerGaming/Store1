@@ -3,49 +3,50 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flash Sale - Nebula Store</title>
+  <title>Flash Sale - Saran Store</title>
   <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
-  <div class="nebula-bg"></div>
-
-  <header>
-    <nav>
-      <div class="logo">Nebula Store</div>
-      <div class="hamburger" onclick="toggleMenu()">☰</div>
-      <ul class="nav-links" id="navLinks">
+  <!-- ===== NAVBAR ===== -->
+  <nav class="navbar glass">
+    <div class="container">
+      <a href="index.html" class="logo">Saran Store</a>
+      <ul class="nav-links">
         <li><a href="index.html">Home</a></li>
         <li><a href="produk.html">Produk</a></li>
+        <li><a href="flashsale.html" class="active">Flash Sale</a></li>
         <li><a href="bestseller.html">Best Seller</a></li>
-        <li><a href="flashsale.html">Flash Sale</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="kontak.html">Kontak</a></li>
+        <li><a href="keranjang.html">🛒 <span id="cart-count">0</span></a></li>
       </ul>
-      <div class="music-toggle" onclick="toggleMusic()">🎵</div>
-    </nav>
-  </header>
-
-  <main>
-    <section class="hero">
-      <h1>Flash Sale</h1>
-      <div id="flashSaleTimer" class="timer"></div>
-    </section>
-
-    <section class="flash-sale-page">
-      <div class="product-grid" id="flashSalePageContainer"></div>
-    </section>
-  </main>
-
-  <footer>
-    <div class="social-icons">
-      <a href="https://wa.me/1234567890" target="_blank">📲</a>
-      <a href="https://t.me/resellergaming" target="_blank">✈️</a>
-      <a href="https://tiktok.com/@resellergaming" target="_blank">🎵</a>
     </div>
-    <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
-  </footer>
+  </nav>
 
+  <!-- ===== HERO SECTION ===== -->
+  <section class="hero">
+    <h1>⚡ Flash Sale</h1>
+    <p>Stok terbatas! Buruan checkout sebelum kehabisan.</p>
+  </section>
+
+  <!-- ===== SEARCH & FILTER ===== -->
+  <section style="text-align:center; margin: 1.5rem 0;">
+    <input type="text" id="search" placeholder="Cari produk flash sale..." />
+    <select id="kategori">
+      <option value="">Semua Kategori</option>
+      <option value="fashion">Fashion</option>
+      <option value="elektronik">Elektronik</option>
+    </select>
+  </section>
+
+  <!-- ===== PRODUK GRID ===== -->
+  <div id="produk-list" class="produk-grid"></div>
+
+  <!-- ===== WHATSAPP FLOAT ===== -->
+  <a href="https://wa.me/6281234567890" class="wa-float" target="_blank">💬</a>
+
+  <!-- ===== SCRIPTS ===== -->
+  <script src="js/search.js"></script>
   <script src="js/main.js"></script>
-  <script src="js/flashsale.js"></script>
 </body>
-</html>
+  </html>
