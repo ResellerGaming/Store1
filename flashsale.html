@@ -3,50 +3,181 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Flash Sale - Saran Store</title>
+  <title>Flash Sale - Nebula Store</title>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .flashsale-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 600px;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+      text-align: center;
+      color: #fff;
+    }
+    .flashsale-box h2 {
+      margin-bottom: 1rem;
+      color: #00f0ff;
+    }
+    #flashSaleTimer {
+      font-size: 2rem;
+      color: #ffcc00;
+      margin-bottom: 1.5rem;
+      text-shadow: 0 0 10px #ffcc00;
+    }
+    .btn-bayar {
+      background: #00f0ff;
+      color: #000;
+      border: none;
+      padding: 0.8rem 1.5rem;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .btn-bayar:hover {
+      background: #00c8d6;
+      box-shadow: 0 0 15px #00f0ff;
+    }
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .product-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1rem;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+    }
+    .product-card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+    .product-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .product-card p {
+      font-size: 1rem;
+      color: #00f0ff;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+  </style>
 </head>
 <body>
-  <!-- ===== NAVBAR ===== -->
-  <nav class="navbar glass">
-    <div class="container">
-      <a href="index.html" class="logo">Saran Store</a>
-      <ul class="nav-links">
+  <div class="nebula-bg"></div>
+
+  <header>
+    <nav>
+      <div class="logo">Nebula Store</div>
+      <div class="hamburger" onclick="toggleMenu()">☰</div>
+      <ul class="nav-links" id="navLinks">
         <li><a href="index.html">Home</a></li>
         <li><a href="produk.html">Produk</a></li>
-        <li><a href="flashsale.html" class="active">Flash Sale</a></li>
         <li><a href="bestseller.html">Best Seller</a></li>
+        <li><a href="flashsale.html">Flash Sale</a></li>
         <li><a href="blog.html">Blog</a></li>
         <li><a href="kontak.html">Kontak</a></li>
-        <li><a href="keranjang.html">🛒 <span id="cart-count">0</span></a></li>
       </ul>
+      <div class="music-toggle" onclick="toggleMusic()">
+        <img id="musicIcon" src="https://cdn-icons-png.flaticon.com/512/1822/1822614.png" alt="Music" />
+      </div>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero">
+      <h1>Flash Sale</h1>
+      <div id="flashSaleTimer" class="flashsale-box">Memuat timer...</div>
+    </section>
+
+    <section class="flash-sale-page">
+      <div class="product-grid" id="flashSaleContainer"></div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="social-icons">
+      <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" />
+      </a>
+      <a href="https://t.me/username" target="_blank" title="Telegram">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
+      </a>
+      <a href="https://tiktok.com/@resellergaming" target="_blank" title="TikTok">
+        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok" />
+      </a>
     </div>
-  </nav>
+    <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
+  </footer>
 
-  <!-- ===== HERO SECTION ===== -->
-  <section class="hero">
-    <h1>⚡ Flash Sale</h1>
-    <p>Stok terbatas! Buruan checkout sebelum kehabisan.</p>
-  </section>
+  <audio id="bgMusic" loop>
+    <source src="assets/music/nebula.mp3" type="audio/mp3" />
+  </audio>
 
-  <!-- ===== SEARCH & FILTER ===== -->
-  <section style="text-align:center; margin: 1.5rem 0;">
-    <input type="text" id="search" placeholder="Cari produk flash sale..." />
-    <select id="kategori">
-      <option value="">Semua Kategori</option>
-      <option value="fashion">Fashion</option>
-      <option value="elektronik">Elektronik</option>
-    </select>
-  </section>
-
-  <!-- ===== PRODUK GRID ===== -->
-  <div id="produk-list" class="produk-grid"></div>
-
-  <!-- ===== WHATSAPP FLOAT ===== -->
-  <a href="https://wa.me/6281234567890" class="wa-float" target="_blank">💬</a>
-
-  <!-- ===== SCRIPTS ===== -->
-  <script src="js/search.js"></script>
   <script src="js/main.js"></script>
+  <script>
+    // Muat produk flash-sale
+    fetch("data/products.json")
+      .then(r => r.json())
+      .then(data => {
+        const container = document.getElementById("flashSaleContainer");
+        const flash = data.filter(p => p.isFlashSale);
+        flash.forEach(p => container.appendChild(createFlashCard(p)));
+      });
+
+    function createFlashCard(product) {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+        <p>Rp${product.price.toLocaleString()}</p>
+        <button class="btn-bayar" onclick="lanjutBayar('${product.name}', ${product.price})">Lanjut Pembayaran</button>
+      `;
+      return card;
+    }
+
+    function lanjutBayar(nama, harga) {
+      location.href = `payment.html?product=${encodeURIComponent(nama)}&price=${harga}`;
+    }
+
+    // Countdown timer
+    function startFlashSaleTimer() {
+      const end = new Date("2025-09-20T23:59:59").getTime();
+      const timerEl = document.getElementById("flashSaleTimer");
+
+      setInterval(() => {
+        const now = new Date().getTime();
+        const distance = end - now;
+
+        if (distance > 0) {
+          const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          const seconds = Math.floor((distance % (1000 * 60)) / 1000);
+          timerEl.innerHTML = `Berakhir dalam: ${hours}h ${minutes}m ${seconds}s`;
+        } else {
+          timerEl.innerHTML = "Flash sale telah berakhir.";
+        }
+      }, 1000);
+    }
+
+    startFlashSaleTimer();
+  </script>
 </body>
-  </html>
+        </html>
