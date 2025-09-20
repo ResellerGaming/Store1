@@ -155,7 +155,7 @@
       const tele = document.getElementById("telePengirim").value;
       const bukti = document.getElementById("buktiTF").files[0];
       if (!metode) { status.textContent = "❌ Pilih metode pembayaran!"; return; }
-      a { status.textContent = "❌ Upload bukti transfer!"; return; }
+      if (!bukti) { status.textContent = "❌ Upload bukti transfer!"; return; }
 
       const idStruk = "RESMING-" + Math.floor(10000000 + Math.random() * 90000000);
       const reader = new FileReader();
@@ -226,4 +226,4 @@
     }
   </script>
 </body>
-    </html>
+      </html>
