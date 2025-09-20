@@ -11,27 +11,6 @@
     .payment-wrapper { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem; max-width: 900px; margin: auto; }
     .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 1.5rem; box-shadow: 0 0 20px rgba(0,240,255,0.3); color: #fff; word-break: break-word; }
     .glass h2 { margin-bottom: 1rem; color: #00f0ff; text-align: center; }
-    .product-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; padding: 2rem 1rem; }
-    .product-card {
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 1rem;
-      width: 220px;
-      text-align: center;
-      box-shadow: 0 0 15px rgba(0,240,255,0.3);
-      transition: transform 0.3s, box-shadow 0.3s;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .product-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(0,240,255,0.6); }
-    .product-card img { width: 100%; border-radius: 10px; margin-bottom: 0.5rem; }
-    .product-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
-    .product-card p { font-size: 1rem; color: #00f0ff; font-weight: bold; margin-bottom: 1rem; }
-    .btn-bayar { background: #00f0ff; color: #000; border: none; padding: 0.6rem 1rem; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
-    .btn-bayar:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
-    .category-title { text-align: center; margin: 2rem 0 1rem; color: #00f0ff; font-size: 1.8rem; text-shadow: 0 0 10px #00f0ff; }
 
     /* ===== PENCARIAN + KACA PEMBESAR (Google-style) ===== */
     .search-box {
@@ -63,7 +42,61 @@
     }
     .search-box button:hover { color: #fff; }
 
-    @media (max-width: 600px) { .product-grid { padding: 1rem; } .product-card { width: 160px; } }
+    /* ===== KATEGORI KESAMPING (Mobile & Desktop) ===== */
+    .category-bar {
+      display: flex;
+      gap: 1rem;
+      margin: 2rem auto;
+      max-width: 900px;
+      overflow-x: auto;
+      padding: 0.5rem 1rem;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 25px;
+      box-shadow: 0 0 15px rgba(0,240,255,0.3);
+    }
+    .category-btn {
+      background: none;
+      border: 1px solid #00f0ff;
+      color: #00f0ff;
+      padding: 0.5rem 1rem;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: background 0.3s, color 0.3s;
+      white-space: nowrap;
+    }
+    .category-btn.active { background: #00f0ff; color: #000; }
+
+    /* ===== PRODUK GRID ===== */
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .product-card {
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1rem;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0,240,255,0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(0,240,255,0.6); }
+    .product-card img { width: 100%; border-radius: 10px; margin-bottom: 0.5rem; }
+    .product-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .product-card p { font-size: 1rem; color: #00f0ff; font-weight: bold; margin-bottom: 1rem; }
+    .btn-bayar { background: #00f0ff; color: #000; border: none; padding: 0.6rem 1rem; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
+    .btn-bayar:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
+
+    @media (max-width: 600px) { .category-bar { flex-wrap: wrap; justify-content: center; } .product-grid { padding: 1rem; } .product-card { width: 160px; } }
   </style>
 </head>
 <body>
@@ -88,25 +121,13 @@
       </div>
     </div>
 
-    <!-- Kategori Headset -->
-    <div class="glass"><h2 class="category-title">🎧 Headset</h2></div>
-    <div class="product-grid" id="headsetGrid"></div>
+    <!-- Kategori Kesamping (Mobile & Desktop) -->
+    <div class="glass">
+      <div class="category-bar" id="categoryBar"></div>
+    </div>
 
-    <!-- Kategori Mouse -->
-    <div class="glass"><h2 class="category-title">🖱️ Mouse</h2></div>
-    <div class="product-grid" id="mouseGrid"></div>
-
-    <!-- Kategori Keyboard -->
-    <div class="glass"><h2 class="category-title">⌨️ Keyboard</h2></div>
-    <div class="product-grid" id="keyboardGrid"></div>
-
-    <!-- Kategori Monitor -->
-    <div class="glass"><h2 class="category-title">🖥️ Monitor</h2></div>
-    <div class="product-grid" id="monitorGrid"></div>
-
-    <!-- Kategori Chair -->
-    <div class="glass"><h2 class="category-title">🪑 Chair</h2></div>
-    <div class="product-grid" id="chairGrid"></div>
+    <!-- Produk Grid (akan diisi via JS) -->
+    <div class="product-grid" id="productGrid"></div>
   </main>
 
   <footer>
@@ -130,8 +151,35 @@
       .then(data => {
         products = data;
         renderAllCategories();
+        renderCategoryBar();
       })
       .catch(err => console.error("Gagal load produk:", err));
+
+    // ===== RENDER KATEGORI BAR (Kesamping) =====
+    function renderCategoryBar() {
+      const bar = document.getElementById("categoryBar");
+      const categories = ["all", "headset", "mouse", "keyboard", "monitor", "chair"];
+      categories.forEach(cat => {
+        const btn = document.createElement("button");
+        btn.className = "category-btn";
+        btn.textContent = cat === "all" ? "Semua" : cat.charAt(0).toUpperCase() + cat.slice(1);
+        btn.onclick = () => filterByCategory(cat);
+        bar.appendChild(btn);
+      });
+      // Default: tampilkan semua
+      filterByCategory("all");
+    }
+
+    // ===== RENDER PER KATEGORI =====
+    function renderAllCategories() {
+      const grid = document.getElementById("productGrid");
+      grid.innerHTML = ""; // kosongkan dulu
+      const categories = ["headset", "mouse", "keyboard", "monitor", "chair"];
+      categories.forEach(cat => {
+        const filtered = products.filter(p => p.category === cat);
+        filtered.forEach(p => grid.appendChild(createProductCard(p)));
+      });
+    }
 
     // ===== FUNGSI BUAT KARTU =====
     function createProductCard(product) {
@@ -146,14 +194,16 @@
       return card;
     }
 
-    // ===== RENDER PER KATEGORI =====
-    function renderAllCategories() {
-      const categories = ["headset", "mouse", "keyboard", "monitor", "chair"];
-      categories.forEach(cat => {
-        const grid = document.getElementById(cat + "Grid");
-        const filtered = products.filter(p => p.category === cat);
-        filtered.forEach(p => grid.appendChild(createProductCard(p)));
-      });
+    // ===== FILTER BY CATEGORY =====
+    function filterByCategory(cat) {
+      // Hapus semua kartu
+      document.getElementById("productGrid").innerHTML = "";
+      // Tampilkan hanya kategori yang dipilih
+      const filtered = cat === "all" ? products : products.filter(p => p.category === cat);
+      filtered.forEach(p => document.getElementById("productGrid").appendChild(createProductCard(p)));
+      // Highlight tombol aktif
+      document.querySelectorAll(".category-btn").forEach(btn => btn.classList.remove("active"));
+      document.querySelector(`.category-btn[onclick="filterByCategory('${cat}')"]`).classList.add("active");
     }
 
     // ===== PENCARIAN (Google-style) =====
@@ -172,4 +222,4 @@
     }
   </script>
 </body>
-                                                                                                                                                                 </html>
+    </html>
