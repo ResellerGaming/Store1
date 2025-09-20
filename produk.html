@@ -3,75 +3,35 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Produk - Reseller Gaming</title>
+  <title>Produk - Nebula Store</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
+    body { display: flex; flex-direction: column; min-height: 100vh; background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; }
+    main { flex: 1; padding: 2rem 1rem; }
+    .payment-wrapper { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem; max-width: 900px; margin: auto; }
+    .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 1.5rem; box-shadow: 0 0 20px rgba(0,240,255,0.3); color: #fff; word-break: break-word; }
+    .glass h2 { margin-bottom: 1rem; color: #00f0ff; text-align: center; }
+    .product-grid { display: flex; flex-wrap: wrap; gap: 1.5rem; justify-content: center; padding: 2rem 1rem; }
     .product-card {
-      background: rgba(255, 255, 255, 0.1);
+      background: rgba(255,255,255,0.1);
       backdrop-filter: blur(10px);
       border-radius: 15px;
       padding: 1rem;
       width: 220px;
       text-align: center;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+      box-shadow: 0 0 15px rgba(0,240,255,0.3);
       transition: transform 0.3s, box-shadow 0.3s;
       display: flex;
       flex-direction: column;
       justify-content: space-between;
     }
-
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
-    }
-
-    .product-card img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
-    }
-
-    .product-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-
-    .product-card p {
-      font-size: 1rem;
-      color: #00f0ff;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-
-    .btn-bayar {
-      background: #00f0ff;
-      color: #000;
-      border: none;
-      padding: 0.6rem 1rem;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s;
-    }
-
-    .btn-bayar:hover {
-      background: #00c8d6;
-    }
-
-    .all-products {
-      padding: 2rem 1rem;
-    }
-
-    #searchInput {
-      display: block;
-      margin: 0 auto 2rem;
-      padding: 0.8rem 1.2rem;
-      width: 350px;
-      max-width: 90%;
-      border: none;
-      border-radius: 25px;
-      font-size: 1rem;
-    }
+    .product-card:hover { transform: translateY(-5px); box-shadow: 0 0 25px rgba(0,240,255,0.6); }
+    .product-card img { width: 100%; border-radius: 10px; margin-bottom: 0.5rem; }
+    .product-card h3 { font-size: 1.1rem; margin-bottom: 0.5rem; }
+    .product-card p { font-size: 1rem; color: #00f0ff; font-weight: bold; margin-bottom: 1rem; }
+    .btn-bayar { background: #00f0ff; color: #000; border: none; padding: 0.6rem 1rem; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
+    .btn-bayar:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
+    .category-title { text-align: center; margin: 2rem 0 1rem; color: #00f0ff; font-size: 1.8rem; text-shadow: 0 0 10px #00f0ff; }
   </style>
 </head>
 <body>
@@ -79,32 +39,90 @@
 
   <header>
     <nav>
-      <div class="logo">Reseller Gaming</div>
-      <div class="hamburger" onclick="toggleMenu()">☰</div>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index">Home</a></li>
-        <li><a href="produk">Produk</a></li>
-        <li><a href="bestseller">Best Seller</a></li>
-        <li><a href="flashsale">Flash Sale</a></li>
-        <li><a href="blog">Blog</a></li>
-        <li><a href="kontak">Kontak</a></li>
-      </ul>
-      <div class="music-toggle" onclick="toggleMusic()">
-  <img id="musicIcon" src="https://cdn-icons-png.flaticon.com/512/1822/1822614.png" alt="Music" />
-</div>
+      <div class="logo">Nebula Store</div>
+      <ul class="nav-links"><li><a href="index">Home</a></li><li><a href="produk">Produk</a></li><li><a href="bestseller">Best Seller</a></li><li><a href="flashsale">Flash Sale</a></li><li><a href="blog">Blog</a></li><li><a href="kontak">Kontak</a></li></ul>
+      <div class="music-toggle" onclick="toggleMusic()"><img id="musicIcon" src="https://cdn-icons-png.flaticon.com/512/1822/1822614.png" alt="Music" /></div>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <h1>Semua Produk</h1>
-      <input type="text" id="searchInput" placeholder="Cari produk..." onkeyup="liveSearch()" />
-    </section>
+    <section class="hero"><h1>Semua Produk</h1></section>
 
-    <section class="all-products">
-      <div class="product-grid" id="allProductsContainer"></div>
-    </section>
+    <!-- Kategori Headset -->
+    <div class="glass"><h2 class="category-title">🎧 Headset</h2></div>
+    <div class="product-grid" id="headsetGrid"></div>
+
+    <!-- Kategori Mouse -->
+    <div class="glass"><h2 class="category-title">🖱️ Mouse</h2></div>
+    <div class="product-grid" id="mouseGrid"></div>
+
+    <!-- Kategori Keyboard -->
+    <div class="glass"><h2 class="category-title">⌨️ Keyboard</h2></div>
+    <div class="product-grid" id="keyboardGrid"></div>
+
+    <!-- Kategori Monitor -->
+    <div class="glass"><h2 class="category-title">🖥️ Monitor</h2></div>
+    <div class="product-grid" id="monitorGrid"></div>
+
+    <!-- Kategori Chair -->
+    <div class="glass"><h2 class="category-title">🪑 Chair</h2></div>
+    <div class="product-grid" id="chairGrid"></div>
   </main>
+
+  <footer>
+    <div class="social-icons">
+      <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" /></a>
+      <a href="https://t.me/username" target="_blank" title="Telegram"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" /></a>
+      <a href="https://tiktok.com/@resellergaming" target="_blank" title="TikTok"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok" /></a>
+    </div>
+    <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
+  </footer>
+
+  <audio id="bgMusic" loop><source src="assets/music/nebula.mp3" type="audio/mp3" /></audio>
+  <script src="js/main.js"></script>
+  <script>
+    // ===== DATA PRODUK (dari produk.json) =====
+    let products = [];
+
+    // ===== MUAT PRODUK DARI JSON =====
+    fetch("data/products.json")
+      .then(res => res.json())
+      .then(data => {
+        products = data;
+        renderAllCategories();
+      })
+      .catch(err => console.error("Gagal load produk:", err));
+
+    // ===== FUNGSI BUAT KARTU =====
+    function createProductCard(product) {
+      const card = document.createElement("div");
+      card.className = "product-card";
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+        <p>Rp${product.price.toLocaleString()}</p>
+        <button class="btn-bayar" onclick="lanjutBayar('${product.name}', ${product.price})">Lanjut Bayar</button>
+      `;
+      return card;
+    }
+
+    // ===== RENDER PER KATEGORI =====
+    function renderAllCategories() {
+      const categories = ["headset", "mouse", "keyboard", "monitor", "chair"];
+      categories.forEach(cat => {
+        const grid = document.getElementById(cat + "Grid");
+        const filtered = products.filter(p => p.category === cat);
+        filtered.forEach(p => grid.appendChild(createProductCard(p)));
+      });
+    }
+
+    // ===== LANJUT BAYAR =====
+    function lanjutBayar(nama, harga) {
+      location.href = `payment.html?product=${encodeURIComponent(nama)}&price=${harga}`;
+    }
+  </script>
+</body>
+                                                                                                                                                                 </html>  </main>
 
   <footer>
   <div class="social-icons">
