@@ -32,6 +32,38 @@
     .btn-bayar { background: #00f0ff; color: #000; border: none; padding: 0.6rem 1rem; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
     .btn-bayar:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
     .category-title { text-align: center; margin: 2rem 0 1rem; color: #00f0ff; font-size: 1.8rem; text-shadow: 0 0 10px #00f0ff; }
+
+    /* ===== PENCARIAN + KACA PEMBESAR (Google-style) ===== */
+    .search-box {
+      display: flex;
+      align-items: center;
+      background: rgba(255,255,255,0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 25px;
+      padding: 0.5rem 1rem;
+      margin: 2rem auto;
+      max-width: 500px;
+      box-shadow: 0 0 15px rgba(0,240,255,0.3);
+    }
+    .search-box input {
+      flex: 1;
+      border: none;
+      background: transparent;
+      color: #fff;
+      font-size: 1rem;
+      outline: none;
+    }
+    .search-box button {
+      background: none;
+      border: none;
+      color: #00f0ff;
+      font-size: 1.2rem;
+      cursor: pointer;
+      transition: color 0.3s;
+    }
+    .search-box button:hover { color: #fff; }
+
+    @media (max-width: 600px) { .product-grid { padding: 1rem; } .product-card { width: 160px; } }
   </style>
 </head>
 <body>
@@ -47,6 +79,14 @@
 
   <main>
     <section class="hero"><h1>Semua Produk</h1></section>
+
+    <!-- Pencarian + Ikon Kaca Pembesar (Google-style) -->
+    <div class="glass">
+      <div class="search-box">
+        <input type="text" id="searchInput" placeholder="Cari produk...">
+        <button onclick="cariProduk()">🔍</button>
+      </div>
+    </div>
 
     <!-- Kategori Headset -->
     <div class="glass"><h2 class="category-title">🎧 Headset</h2></div>
@@ -116,72 +156,20 @@
       });
     }
 
+    // ===== PENCARIAN (Google-style) =====
+    function cariProduk() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const cards = document.querySelectorAll(".product-card");
+      cards.forEach(card => {
+        const name = card.querySelector("h3").textContent.toLowerCase();
+        card.style.display = name.includes(query) ? "flex" : "none";
+      });
+    }
+
     // ===== LANJUT BAYAR =====
     function lanjutBayar(nama, harga) {
       location.href = `payment.html?product=${encodeURIComponent(nama)}&price=${harga}`;
     }
   </script>
 </body>
-                                                                                                                                                                 </html>  </main>
-
-  <footer>
-  <div class="social-icons">
-    <a href="https://whatsapp.com/channel/0029VbAt2GM7j6g6d13Xx01X" target="_blank" title="WhatsApp">
-      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" />
-    </a>
-    <a href="https://t.me/InfoResellerGamingDEV" target="_blank" title="Telegram">
-      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
-    </a>
-    <a href="https://tiktok.com/@reseller_gaming" target="_blank" title="TikTok">
-      <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok" />
-    </a>
-  </div>
-  <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
-  </footer>
-
-  <audio id="bgMusic" loop>
-  <source src="assets/music/produk.mp3" type="audio/mp3" />
-  </audio>
-  
-  <script src="js/main.js"></script>
-  <script>
-    // Muat semua produk
-    fetch("data/products.json")
-      .then(res => res.json())
-      .then(data => {
-        const container = document.getElementById("allProductsContainer");
-        data.forEach(p => container.appendChild(createProductCard(p)));
-      });
-
-    function createProductCard(product) {
-      const card = document.createElement("div");
-      card.className = "product-card";
-
-      card.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" />
-        <h3>${product.name}</h3>
-        <p>Rp${product.price.toLocaleString()}</p>
-        <button class="btn-bayar" onclick="lanjutBayar('${product.name}', ${product.price})">Lanjut Bayar</button>
-      `;
-      return card;
-    }
-
-    function lanjutBayar(nama, harga) {
-      location.href = `payment.html?product=${encodeURIComponent(nama)}&price=${harga}`;
-    }
-
-    // Live search (opsional)
-    function liveSearch() {
-      const query = document.getElementById("searchInput").value.toLowerCase();
-      const container = document.getElementById("allProductsContainer");
-      fetch("data/products.json")
-        .then(res => res.json())
-        .then(data => {
-          const filtered = data.filter(p => p.name.toLowerCase().includes(query));
-          container.innerHTML = "";
-          filtered.forEach(p => container.appendChild(createProductCard(p)));
-        });
-    }
-  </script>
-</body>
-</html>
+                                                                                                                                                                 </html>
