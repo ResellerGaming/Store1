@@ -117,7 +117,7 @@
     const dataRek = {
       dana: { nomor: "0857-1234-5678", atas: "A/N Reseller Gaming Dana" },
       gopay: { nomor: "0857-1234-5679", atas: "A/N Reseller Gaming GoPay" },
-      ovo: { nomor: "0857-1234-5680", atas: "A/N Reseller Gaming OVO" }
+      ovo: { nomor: "0857-1234-5680", atas: "A/N Reseller Gaming OVO" )
     };
     metodeSelect.onchange = () => {
       const metode = metodeSelect.value;
@@ -202,12 +202,13 @@
             status.textContent = "❌ Gagal kirim ke Telegram.";
             console.error("Telegram response:", data);
           }
-        } else {
-  status.textContent = "❌ Gagal kirim ke Telegram.";
-  console.error("❌ Telegram response:", data);
-  console.error("❌ Description:", data.description); // pesan error Telegram
-  console.error("❌ Full JSON:", JSON.stringify(data, null, 2)); // semua detail
-    }
+        } catch (err) {
+          document.getElementById("loadingOverlay").style.display = "none";
+          status.textContent = "❌ Error jaringan.";
+            console.error("❌ Telegram response:", data);
+            console.error("❌ Description:", data.description); // pesan error Telegram
+            console.error("❌ Full JSON:", JSON.stringify(data, null, 2)); // semua detail
+        }
       };
       reader.readAsDataURL(bukti);
     }
