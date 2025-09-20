@@ -3,77 +3,45 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Best Seller - Nebula Store</title>
+  <title>Payment - Nebula Store</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    .bestseller-box {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 2rem;
-      margin: 2rem auto;
-      max-width: 600px;
-      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
-      text-align: center;
-      color: #fff;
+    body { display: flex; flex-direction: column; min-height: 100vh; }
+    main { flex: 1; padding: 2rem 1rem; }
+    .payment-wrapper { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem; max-width: 900px; margin: auto; }
+    .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 1.5rem; box-shadow: 0 0 20px rgba(0,240,255,0.3); color: #fff; word-break: break-word; }
+    .glass h2 { margin-bottom: 1rem; color: #00f0ff; text-align: center; }
+    .glass label { display: block; margin-top: 1rem; font-weight: 600; }
+    .glass input, .glass select, .glass textarea { width: 100%; padding: 0.8rem; margin-top: 0.5rem; border: none; border-radius: 10px; font-size: 1rem; }
+    .glass button { margin-top: 1.5rem; width: 100%; padding: 0.8rem; border: none; border-radius: 10px; background: #00f0ff; color: #000; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
+    .glass button:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
+    #metodeInfo { margin-top: 1rem; font-size: 0.95rem; color: #ffcc00; }
+    #qrisBox { display: none; text-align: center; }
+    #qrisBox img { max-width: 100%; height: auto; max-height: 300px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,240,255,0.5); }
+    #rekInfo { display: none; }
+    #strukStatus { text-align: center; margin-top: 1rem; font-weight: bold; }
+
+    /* ===== ANIMASI LOADING NEBULA ===== */
+    .loading-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+      display: none; align-items: center; justify-content: center; z-index: 9999;
     }
-    .bestseller-box h2 {
-      margin-bottom: 1rem;
-      color: #00f0ff;
+    .nebula-loader {
+      width: 80px; height: 80px; border: 5px solid rgba(255,255,255,0.2);
+      border-top: 5px solid #00f0ff; border-radius: 50%;
+      animation: spin 1s linear infinite, glow 1.5s ease-in-out infinite alternate;
     }
-    .product-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: center;
-      padding: 2rem 1rem;
-    }
-    .product-card {
-      background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(10px);
-      border-radius: 15px;
-      padding: 1rem;
-      width: 220px;
-      text-align: center;
-      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
-      transition: transform 0.3s, box-shadow 0.3s;
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-    }
-    .product-card:hover {
-      transform: translateY(-5px);
-      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
-    }
-    .product-card img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
-    }
-    .product-card h3 {
-      font-size: 1.1rem;
-      margin-bottom: 0.5rem;
-    }
-    .product-card p {
-      font-size: 1rem;
-      color: #00f0ff;
-      font-weight: bold;
-      margin-bottom: 1rem;
-    }
-    .btn-bayar {
-      background: #00f0ff;
-      color: #000;
-      border: none;
-      padding: 0.6rem 1rem;
-      border-radius: 10px;
-      font-weight: bold;
-      cursor: pointer;
-      transition: background 0.3s, box-shadow 0.3s;
-    }
-    .btn-bayar:hover {
-      background: #00c8d6;
-      box-shadow: 0 0 15px #00f0ff;
-    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes glow { 0% { box-shadow: 0 0 10px #00f0ff; } 100% { box-shadow: 0 0 30px #00f0ff, 0 0 50px #00f0ff; } }
+
+    /* ===== STRUK BOX ===== */
+    #strukBox { display: none; margin-top: 2rem; }
+    #strukBox .id { font-size: 1.5rem; color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
+    .btn-kembali { margin-top: 1.5rem; background: #00f0ff; color: #000; border: none; padding: 0.8rem 1.5rem; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
+    .btn-kembali:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
+
+    @media (max-width: 600px) { .payment-wrapper { padding: 1rem; } .glass { padding: 1rem; } #qrisBox img { max-height: 200px; } }
   </style>
 </head>
 <body>
@@ -82,77 +50,180 @@
   <header>
     <nav>
       <div class="logo">Nebula Store</div>
-      <div class="hamburger" onclick="toggleMenu()">☰</div>
-      <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="produk.html">Produk</a></li>
-        <li><a href="bestseller.html">Best Seller</a></li>
-        <li><a href="flashsale.html">Flash Sale</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="kontak.html">Kontak</a></li>
-      </ul>
-      <div class="music-toggle" onclick="toggleMusic()">
-        <img id="musicIcon" src="https://cdn-icons-png.flaticon.com/512/1822/1822614.png" alt="Music" />
-      </div>
+      <ul class="nav-links"><li><a href="index">Home</a></li><li><a href="produk">Produk</a></li><li><a href="bestseller">Best Seller</a></li><li><a href="flashsale">Flash Sale</a></li><li><a href="blog">Blog</a></li><li><a href="kontak">Kontak</a></li></ul>
+      <div class="music-toggle" onclick="toggleMusic()"><img id="musicIcon" src="https://cdn-icons-png.flaticon.com/512/1822/1822614.png" alt="Music" /></div>
     </nav>
   </header>
 
   <main>
-    <section class="hero">
-      <h1>Produk Best Seller</h1>
-    </section>
+    <section class="hero"><h1>Pembayaran</h1></section>
 
-    <section class="bestseller-page">
-      <div class="product-grid" id="bestSellerContainer"></div>
-    </section>
+    <!-- Form Pembayaran -->
+    <div class="payment-wrapper">
+      <div class="glass"><h2>1. Pilih Produk</h2><select id="productSelect"><option value="" disabled selected>-- Pilih Produk --</option></select><p>Harga: <strong id="hargaTxt">-</strong></p></div>
+      <div class="glass"><h2>2. Metode Pembayaran</h2><select id="metodeSelect"><option value="" disabled selected>-- Pilih Metode --</option><option value="dana">Dana</option><option value="gopay">GoPay</option><option value="ovo">OVO</option><option value="qris">QRIS</option></select><div id="metodeInfo"><div id="qrisBox" style="display:none;"><p>Scan kode QRIS berikut:</p><img src="assets/images/qris.jpg" alt="QRIS" /></div><div id="rekInfo" style="display:none;"></div></div></div>
+      <div class="glass"><h2>3. Data Pembayaran</h2><form id="formPayment" onsubmit="handleBayar(event)"><label>Atas Nama Pengirim</label><input type="text" id="namaPengirim" placeholder="Contoh: Andi Wijaya" required /><label>Nomor WhatsApp</label><input type="tel" id="waPengirim" placeholder="Contoh: 6281234567890" required /><label>Username Telegram</label><input type="text" id="telePengirim" placeholder="Contoh: @andi_wijaya" required /><label>Bukti Transfer (gambar)</label><input type="file" id="buktiTF" accept="image/*" required /><button type="submit">Kirim & Buat Struk</button><p id="strukStatus"></p></form></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay"><div class="nebula-loader"></div></div>
+
+    <!-- Struk (muncul setelah kirim) -->
+    <div id="strukBox" class="glass" style="display:none;">
+      <h2>Struk Pembayaran</h2>
+      <p class="id">ID Struk: <span id="strukId"></span></p>
+      <p>Produk: <span id="strukProduk"></span></p>
+      <p>Harga: <span id="strukHarga"></span></p>
+      <p>Metode: <span id="strukMetode"></span></p>
+      <p>Nama: <span id="strukNama"></span></p>
+      <p>WhatsApp: <span id="strukWA"></span></p>
+      <p>Telegram: <span id="strukTele"></span></p>
+      <button class="btn-kembali" onclick="location.href='index'">Kembali ke Home</button>
+    </div>
   </main>
 
   <footer>
     <div class="social-icons">
-      <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp">
-        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" />
-      </a>
-      <a href="https://t.me/username" target="_blank" title="Telegram">
-        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
-      </a>
-      <a href="https://tiktok.com/@resellergaming" target="_blank" title="TikTok">
-        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok" />
-      </a>
+      <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" /></a>
+      <a href="https://t.me/username" target="_blank" title="Telegram"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" /></a>
+      <a href="https://tiktok.com/@resellergaming" target="_blank" title="TikTok"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok" /></a>
     </div>
     <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
   </footer>
 
-  <audio id="bgMusic" loop>
-    <source src="assets/music/nebula.mp3" type="audio/mp3" />
-  </audio>
-
+  <audio id="bgMusic" loop><source src="assets/music/nebula.mp3" type="audio/mp3" /></audio>
   <script src="js/main.js"></script>
   <script>
-    // Muat produk best-seller
-    fetch("data/products.json")
-      .then(r => r.json())
-      .then(data => {
-        const container = document.getElementById("bestSellerContainer");
-        const best = data.filter(p => p.isBestSeller);
-        best.forEach(p => container.appendChild(createBestCard(p)));
-      });
+    // ===== DATA PRODUK (lokal) =====
+    const products = [
+      { id: 1, name: "Nebula Headset RGB", price: 250000, image: "assets/images/headset.jpg", isBestSeller: true, isFlashSale: true },
+      { id: 2, name: "Nebula Mouse Wireless", price: 150000, image: "assets/images/mouse.jpg", isBestSeller: true, isFlashSale: false },
+      { id: 3, name: "Nebula Keyboard Mechanical", price: 350000, image: "assets/images/keyboard.jpg", isBestSeller: false, isFlashSale: true }
+    ];
 
-    function createBestCard(product) {
-      const card = document.createElement("div");
-      card.className = "product-card";
+    // ===== ISI PILIHAN PRODUK =====
+    const productSelect = document.getElementById("productSelect");
+    const hargaTxt = document.getElementById("hargaTxt");
+    const urlParams = new URLSearchParams(location.search);
+    const prodParam = urlParams.get("product");
+    const priceParam = urlParams.get("price");
 
-      card.innerHTML = `
-        <img src="${product.image}" alt="${product.name}" />
-        <h3>${product.name}</h3>
-        <p>Rp${product.price.toLocaleString()}</p>
-        <button class="btn-bayar" onclick="lanjutBayar('${product.name}', ${product.price})">Lanjut Pembayaran</button>
-      `;
-      return card;
-    }
+    // Isi dropdown
+    products.forEach(p => {
+      const opt = document.createElement("option");
+      opt.value = p.price;
+      opt.textContent = p.name;
+      if (p.name === prodParam) opt.selected = true;
+      productSelect.appendChild(opt);
+    });
+    if (prodParam && priceParam) hargaTxt.textContent = `Rp${Number(priceParam).toLocaleString()}`;
 
-    function lanjutBayar(nama, harga) {
-      location.href = `payment.html?product=${encodeURIComponent(nama)}&price=${harga}`;
+    productSelect.onchange = () => {
+      const harga = Number(productSelect.value);
+      hargaTxt.textContent = `Rp${harga.toLocaleString()}`;
+    };
+
+    // ===== METODE BAYAR =====
+    const metodeSelect = document.getElementById("metodeSelect");
+    const dataRek = {
+      dana: { nomor: "0857-1234-5678", atas: "A/N Reseller Gaming Dana" },
+      gopay: { nomor: "0857-1234-5679", atas: "A/N Reseller Gaming GoPay" },
+      ovo: { nomor: "0857-1234-5680", atas: "A/N Reseller Gaming OVO" }
+    };
+    metodeSelect.onchange = () => {
+      const metode = metodeSelect.value;
+      const qrisBox = document.getElementById("qrisBox");
+      const rekInfo = document.getElementById("rekInfo");
+      qrisBox.style.display = rekInfo.style.display = "none";
+      if (metode === "qris") qrisBox.style.display = "block";
+      else if (dataRek[metode]) {
+        const rek = dataRek[metode];
+        rekInfo.innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
+        rekInfo.style.display = "block";
+      }
+    };
+
+    // ===== KIRIM KE TELEGRAM (FormData = tanpa error) =====
+    async function handleBayar(e) {
+      e.preventDefault();
+      const status = document.getElementById("strukStatus");
+      const produk = productSelect.options[productSelect.selectedIndex].text;
+      const harga = Number(productSelect.value);
+      const metode = metodeSelect.value;
+      const nama = document.getElementById("namaPengirim").value;
+      const wa = document.getElementById("waPengirim").value;
+      const tele = document.getElementById("telePengirim").value;
+      const bukti = document.getElementById("buktiTF").files[0];
+      if (!metode) { status.textContent = "❌ Pilih metode pembayaran!"; return; }
+      a { status.textContent = "❌ Upload bukti transfer!"; return; }
+
+      const idStruk = "RESMING-" + Math.floor(10000000 + Math.random() * 90000000);
+      const reader = new FileReader();
+
+      reader.onload = async () => {
+        // Tampilkan loading
+        document.getElementById("loadingOverlay").style.display = "flex";
+
+        // ===== PERBAIKAN: ambil base64 tanpa prefix =====
+        const base64 = reader.result.split(",")[1]; // hapus "data:image/...;base64,"
+
+        // ===== PERBAIKAN: kompres jika > 5 MB =====
+        const maxSize = 5 * 1024 * 1024; // 5 MB (Telegram limit ~10 MB)
+        if (base64.length > maxSize) {
+          document.getElementById("loadingOverlay").style.display = "none";
+          status.textContent = "❌ Gambar terlalu besar (max 5 MB).";
+          return;
+        }
+
+        const botToken = "8382250113:AAH1vrOjm04b8Vfjmg7yCkmPl8a7dvXvCqQ";
+        const chatId = "7670525689";
+        const caption = `📄 Struk Pembayaran\n\nID: ${idStruk}\nProduk: ${produk}\nHarga: Rp${harga.toLocaleString()}\nMetode: ${metode.toUpperCase()}\nNama: ${nama}\nWA: ${wa}\nTele: ${tele}`;
+
+        // ===== PERBAIKAN: kirim base64 langsung =====
+        try {
+          const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({
+              chat_id: chatId,
+              photo: `data:image/jpeg;base64,${base64}`,
+              caption: caption
+            })
+          });
+          const data = await res.json();
+
+          // Sembunyikan loading
+          document.getElementById("loadingOverlay").style.display = "none";
+
+          if (data.ok) {
+            status.innerHTML = `✅ Struk terkirim! ID: <strong>${idStruk}</strong>`;
+
+            // Tampilkan struk di bawah form
+            document.getElementById("strukId").textContent = idStruk;
+            document.getElementById("strukProduk").textContent = produk;
+            document.getElementById("strukHarga").textContent = `Rp${harga.toLocaleString()}`;
+            document.getElementById("strukMetode").textContent = metode.toUpperCase();
+            document.getElementById("strukNama").textContent = nama;
+            document.getElementById("strukWA").textContent = wa;
+            document.getElementById("strukTele").textContent = tele;
+            document.getElementById("strukBox").style.display = "block";
+
+            // Scroll otomatis ke struk
+            document.getElementById("strukBox").scrollIntoView({ behavior: "smooth" });
+          } else {
+            status.textContent = "❌ Gagal kirim ke Telegram.";
+            console.error("Telegram response:", data);
+          }
+        } catch (err) {
+          document.getElementById("loadingOverlay").style.display = "none";
+          status.textContent = "❌ Error jaringan.";
+            console.error("❌ Telegram response:", data);
+            console.error("❌ Description:", data.description); // pesan error Telegram
+            console.error("❌ Full JSON:", JSON.stringify(data, null, 2)); // semua detail
+        }
+      };
+      reader.readAsDataURL(bukti);
     }
   </script>
 </body>
-</html>
+    </html>
