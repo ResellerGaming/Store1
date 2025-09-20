@@ -5,6 +5,76 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Best Seller - Nebula Store</title>
   <link rel="stylesheet" href="css/style.css" />
+  <style>
+    .bestseller-box {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 2rem;
+      margin: 2rem auto;
+      max-width: 600px;
+      box-shadow: 0 0 20px rgba(0, 240, 255, 0.3);
+      text-align: center;
+      color: #fff;
+    }
+    .bestseller-box h2 {
+      margin-bottom: 1rem;
+      color: #00f0ff;
+    }
+    .product-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1.5rem;
+      justify-content: center;
+      padding: 2rem 1rem;
+    }
+    .product-card {
+      background: rgba(255, 255, 255, 0.1);
+      backdrop-filter: blur(10px);
+      border-radius: 15px;
+      padding: 1rem;
+      width: 220px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 240, 255, 0.3);
+      transition: transform 0.3s, box-shadow 0.3s;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+    .product-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 0 25px rgba(0, 240, 255, 0.6);
+    }
+    .product-card img {
+      width: 100%;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+    }
+    .product-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.5rem;
+    }
+    .product-card p {
+      font-size: 1rem;
+      color: #00f0ff;
+      font-weight: bold;
+      margin-bottom: 1rem;
+    }
+    .btn-bayar {
+      background: #00f0ff;
+      color: #000;
+      border: none;
+      padding: 0.6rem 1rem;
+      border-radius: 10px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, box-shadow 0.3s;
+    }
+    .btn-bayar:hover {
+      background: #00c8d6;
+      box-shadow: 0 0 15px #00f0ff;
+    }
+  </style>
 </head>
 <body>
   <div class="nebula-bg"></div>
@@ -21,7 +91,9 @@
         <li><a href="blog.html">Blog</a></li>
         <li><a href="kontak.html">Kontak</a></li>
       </ul>
-      <div class="music-toggle" onclick="toggleMusic()">🎵</div>
+      <div class="music-toggle" onclick="toggleMusic()">
+        <img id="musicIcon" src="https://cdn-icons-png.flaticon.com/512/1822/1822614.png" alt="Music" />
+      </div>
     </nav>
   </header>
 
@@ -30,20 +102,57 @@
       <h1>Produk Best Seller</h1>
     </section>
 
-    <section class="best-seller-page">
-      <div class="product-grid" id="bestSellerPageContainer"></div>
+    <section class="bestseller-page">
+      <div class="product-grid" id="bestSellerContainer"></div>
     </section>
   </main>
 
   <footer>
     <div class="social-icons">
-      <a href="https://wa.me/1234567890" target="_blank">📲</a>
-      <a href="https://t.me/resellergaming" target="_blank">✈️</a>
-      <a href="https://tiktok.com/@resellergaming" target="_blank">🎵</a>
+      <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp">
+        <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" />
+      </a>
+      <a href="https://t.me/username" target="_blank" title="Telegram">
+        <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
+      </a>
+      <a href="https://tiktok.com/@resellergaming" target="_blank" title="TikTok">
+        <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok" />
+      </a>
     </div>
     <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
   </footer>
 
+  <audio id="bgMusic" loop>
+    <source src="assets/music/nebula.mp3" type="audio/mp3" />
+  </audio>
+
   <script src="js/main.js"></script>
+  <script>
+    // Muat produk best-seller
+    fetch("data/products.json")
+      .then(r => r.json())
+      .then(data => {
+        const container = document.getElementById("bestSellerContainer");
+        const best = data.filter(p => p.isBestSeller);
+        best.forEach(p => container.appendChild(createBestCard(p)));
+      });
+
+    function createBestCard(product) {
+      const card = document.createElement("div");
+      card.className = "product-card";
+
+      card.innerHTML = `
+        <img src="${product.image}" alt="${product.name}" />
+        <h3>${product.name}</h3>
+        <p>Rp${product.price.toLocaleString()}</p>
+        <button class="btn-bayar" onclick="lanjutBayar('${product.name}', ${product.price})">Lanjut Pembayaran</button>
+      `;
+      return card;
+    }
+
+    function lanjutBayar(nama, harga) {
+      location.href = `payment.html?product=${encodeURIComponent(nama)}&price=${harga}`;
+    }
+  </script>
 </body>
-</html>
+  </html>
