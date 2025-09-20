@@ -1,7 +1,16 @@
 // Toggle musik
 function toggleMusic() {
   const music = document.getElementById("bgMusic");
-  music.paused ? music.play() : music.pause();
+  const icon = document.getElementById("musicIcon");
+  const toggle = document.querySelector(".music-toggle");
+
+  if (music.paused) {
+    music.play();
+    toggle.classList.add("playing");
+  } else {
+    music.pause();
+    toggle.classList.remove("playing");
+  }
 }
 
 // Toggle menu hamburger
