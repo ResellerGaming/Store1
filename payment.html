@@ -20,6 +20,27 @@
     #qrisBox img { max-width: 100%; height: auto; max-height: 300px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,240,255,0.5); }
     #rekInfo { display: none; }
     #strukStatus { text-align: center; margin-top: 1rem; font-weight: bold; }
+
+    /* ===== ANIMASI LOADING NEBULA ===== */
+    .loading-overlay {
+      position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+      background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
+      display: none; align-items: center; justify-content: center; z-index: 9999;
+    }
+    .nebula-loader {
+      width: 80px; height: 80px; border: 5px solid rgba(255,255,255,0.2);
+      border-top: 5px solid #00f0ff; border-radius: 50%;
+      animation: spin 1s linear infinite, glow 1.5s ease-in-out infinite alternate;
+    }
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    @keyframes glow { 0% { box-shadow: 0 0 10px #00f0ff; } 100% { box-shadow: 0 0 30px #00f0ff, 0 0 50px #00f0ff; } }
+
+    /* ===== STRUK BOX ===== */
+    #strukBox { display: none; margin-top: 2rem; }
+    #strukBox .id { font-size: 1.5rem; color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
+    .btn-kembali { margin-top: 1.5rem; background: #00f0ff; color: #000; border: none; padding: 0.8rem 1.5rem; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
+    .btn-kembali:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
+
     @media (max-width: 600px) { .payment-wrapper { padding: 1rem; } .glass { padding: 1rem; } #qrisBox img { max-height: 200px; } }
   </style>
 </head>
@@ -36,10 +57,28 @@
 
   <main>
     <section class="hero"><h1>Pembayaran</h1></section>
+
+    <!-- Form Pembayaran -->
     <div class="payment-wrapper">
       <div class="glass"><h2>1. Pilih Produk</h2><select id="productSelect"><option value="" disabled selected>-- Pilih Produk --</option></select><p>Harga: <strong id="hargaTxt">-</strong></p></div>
       <div class="glass"><h2>2. Metode Pembayaran</h2><select id="metodeSelect"><option value="" disabled selected>-- Pilih Metode --</option><option value="qris">QRIS</option><option value="dana">Dana</option><option value="gopay">GoPay</option><option value="ovo">OVO</option></select><div id="metodeInfo"><div id="qrisBox" style="display:none;"><p>Scan kode QRIS berikut:</p><img src="assets/images/qris.jpg" alt="QRIS" /></div><div id="rekInfo" style="display:none;"></div></div></div>
       <div class="glass"><h2>3. Data Pembayaran</h2><form id="formPayment" onsubmit="handleBayar(event)"><label>Atas Nama Pengirim</label><input type="text" id="namaPengirim" placeholder="Contoh: Andi Wijaya" required /><label>Nomor WhatsApp</label><input type="tel" id="waPengirim" placeholder="Contoh: 6281234567890" required /><label>Username Telegram</label><input type="text" id="telePengirim" placeholder="Contoh: @andi_wijaya" required /><label>Bukti Transfer (gambar)</label><input type="file" id="buktiTF" accept="image/*" required /><button type="submit">Kirim & Buat Struk</button><p id="strukStatus"></p></form></div>
+    </div>
+
+    <!-- Loading Overlay -->
+    <div class="loading-overlay" id="loadingOverlay"><div class="nebula-loader"></div></div>
+
+    <!-- Struk (muncul setelah kirim) -->
+    <div id="strukBox" class="glass" style="display:none;">
+      <h2>Struk Pembayaran</h2>
+      <p class="id">ID Struk: <span id="strukId"></span></p>
+      <p>Produk: <span id="strukProduk"></span></p>
+      <p>Harga: <span id="strukHarga"></span></p>
+      <p>Metode: <span id="strukMetode"></span></p>
+      <p>Nama: <span id="strukNama"></span></p>
+      <p>WhatsApp: <span id="strukWA"></span></p>
+      <p>Telegram: <span id="strukTele"></span></p>
+      <button class="btn-kembali" onclick="location.href='index'">Kembali ke Home</button>
     </div>
   </main>
 
@@ -105,27 +144,51 @@
       const bukti = document.getElementById("buktiTF").files[0];
       if (!metode) { status.textContent = "❌ Pilih metode pembayaran!"; return; }
       if (!bukti) { status.textContent = "❌ Upload bukti transfer!"; return; }
+
       const idStruk = "RESMING-" + Math.floor(10000000 + Math.random() * 90000000);
       const reader = new FileReader();
+
       reader.onload = async () => {
+        // Tampilkan loading
+        document.getElementById("loadingOverlay").style.display = "flex";
+
         const base64 = reader.result.split(",")[1];
-        const botToken = "8301035365:AAHyu7jOsrQAqjvaocb0NeLv1l8oGWIRNX8";
-        const chatId = "7670525689";
+        const botToken = "GANTI_BOT_TOKEN";
+        const chatId = "GANTI_CHAT_ID";
         const caption = `📄 Struk Pembayaran\n\nID: ${idStruk}\nProduk: ${produk}\nHarga: Rp${harga.toLocaleString()}\nMetode: ${metode.toUpperCase()}\nNama: ${nama}\nWA: ${wa}\nTele: ${tele}`;
+
         const formData = new FormData();
         formData.append("chat_id", chatId);
         formData.append("caption", caption);
         formData.append("photo", `data:image/jpeg;base64,${base64}`);
+
         try {
           const res = await fetch(`https://api.telegram.org/bot${botToken}/sendPhoto`, { method: "POST", body: formData });
           const data = await res.json();
+
+          // Sembunyikan loading
+          document.getElementById("loadingOverlay").style.display = "none";
+
           if (data.ok) {
             status.innerHTML = `✅ Struk terkirim! ID: <strong>${idStruk}</strong>`;
-            document.getElementById("formPayment").reset();
-            document.getElementById("qrisBox").style.display = "none";
-            document.getElementById("rekInfo").style.display = "none";
-          } else status.textContent = "❌ Gagal kirim ke Telegram.";
+
+            // Tampilkan struk di bawah form
+            document.getElementById("strukId").textContent = idStruk;
+            document.getElementById("strukProduk").textContent = produk;
+            document.getElementById("strukHarga").textContent = `Rp${harga.toLocaleString()}`;
+            document.getElementById("strukMetode").textContent = metode.toUpperCase();
+            document.getElementById("strukNama").textContent = nama;
+            document.getElementById("strukWA").textContent = wa;
+            document.getElementById("strukTele").textContent = tele;
+            document.getElementById("strukBox").style.display = "block";
+
+            // Scroll otomatis ke struk
+            document.getElementById("strukBox").scrollIntoView({ behavior: "smooth" });
+          } else {
+            status.textContent = "❌ Gagal kirim ke Telegram.";
+          }
         } catch (err) {
+          document.getElementById("loadingOverlay").style.display = "none";
           status.textContent = "❌ Error jaringan.";
           console.error(err);
         }
@@ -134,4 +197,4 @@
     }
   </script>
 </body>
-  </html>
+</html>      
