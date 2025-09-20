@@ -4,100 +4,24 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Payment - Nebula Store</title>
-
-  <!-- Tema Nebula langsung di-embed -->
+  <link rel="stylesheet" href="css/style.css" />
   <style>
-    body {
-      margin: 0;
-      padding: 0;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-      color: #fff;
-      font-family: 'Segoe UI', sans-serif;
-    }
-
-    header {
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
-      padding: 1rem 2rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      box-shadow: 0 0 20px rgba(0,240,255,0.3);
-    }
-    header .logo {
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #00f0ff;
-      text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-    }
-    .nav-links {
-      list-style: none;
-      display: flex;
-      gap: 1.5rem;
-      margin: 0;
-      padding: 0;
-    }
-    .nav-links a {
-      text-decoration: none;
-      color: #fff;
-      transition: color 0.3s, text-shadow 0.3s;
-    }
-    .nav-links a:hover {
-      color: #00f0ff;
-      text-shadow: 0 0 10px #00f0ff;
-    }
-
-    h1, h2 {
-      text-align: center;
-      color: #00f0ff;
-      text-shadow: 0 0 10px #00f0ff, 0 0 20px #00f0ff;
-    }
-
+    body { display: flex; flex-direction: column; min-height: 100vh; background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; }
     main { flex: 1; padding: 2rem 1rem; }
-
-    .payment-wrapper {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
-      padding: 2rem 1rem;
-      max-width: 900px;
-      margin: auto;
-    }
-
-    .glass {
-      background: rgba(255,255,255,0.1);
-      backdrop-filter: blur(12px);
-      border-radius: 15px;
-      padding: 1.5rem;
-      box-shadow: 0 0 20px rgba(0,240,255,0.3);
-      color: #fff;
-    }
-    .glass h2 { margin-bottom: 1rem; }
+    .payment-wrapper { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem; max-width: 900px; margin: auto; }
+    .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 1.5rem; box-shadow: 0 0 20px rgba(0,240,255,0.3); color: #fff; word-break: break-word; }
+    .glass h2 { margin-bottom: 1rem; color: #00f0ff; text-align: center; }
     .glass label { display: block; margin-top: 1rem; font-weight: 600; }
-    .glass input, .glass select {
-      width: 100%; padding: 0.8rem; margin-top: 0.5rem;
-      border: none; border-radius: 10px; font-size: 1rem;
-    }
-    .glass button {
-      margin-top: 1.5rem; width: 100%; padding: 0.8rem;
-      border: none; border-radius: 10px;
-      background: #00f0ff; color: #000; font-weight: bold;
-      cursor: pointer; transition: background 0.3s, box-shadow 0.3s;
-    }
-    .glass button:hover {
-      background: #00c8d6;
-      box-shadow: 0 0 15px #00f0ff;
-    }
-
+    .glass input, .glass select, .glass textarea { width: 100%; padding: 0.8rem; margin-top: 0.5rem; border: none; border-radius: 10px; font-size: 1rem; }
+    .glass button { margin-top: 1.5rem; width: 100%; padding: 0.8rem; border: none; border-radius: 10px; background: #00f0ff; color: #000; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
+    .glass button:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
     #metodeInfo { margin-top: 1rem; font-size: 0.95rem; color: #ffcc00; }
     #qrisBox { display: none; text-align: center; }
-    #qrisBox img { max-width: 100%; height: auto; max-height: 300px; border-radius: 10px; }
+    #qrisBox img { max-width: 100%; height: auto; max-height: 300px; border-radius: 10px; box-shadow: 0 0 15px rgba(0,240,255,0.5); }
     #rekInfo { display: none; }
     #strukStatus { text-align: center; margin-top: 1rem; font-weight: bold; }
 
+    /* ===== ANIMASI LOADING NEBULA ===== */
     .loading-overlay {
       position: fixed; top: 0; left: 0; width: 100%; height: 100%;
       background: rgba(0,0,0,0.7); backdrop-filter: blur(5px);
@@ -109,81 +33,43 @@
       animation: spin 1s linear infinite, glow 1.5s ease-in-out infinite alternate;
     }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
-    @keyframes glow {
-      0% { box-shadow: 0 0 10px #00f0ff; }
-      100% { box-shadow: 0 0 30px #00f0ff, 0 0 50px #00f0ff; }
-    }
+    @keyframes glow { 0% { box-shadow: 0 0 10px #00f0ff; } 100% { box-shadow: 0 0 30px #00f0ff, 0 0 50px #00f0ff; } }
 
+    /* ===== STRUK BOX ===== */
     #strukBox { display: none; margin-top: 2rem; }
     #strukBox .id { font-size: 1.5rem; color: #ffcc00; text-shadow: 0 0 10px #ffcc00; }
-    .btn-kembali {
-      margin-top: 1.5rem; background: #00f0ff; color: #000;
-      border: none; padding: 0.8rem 1.5rem; border-radius: 10px;
-      font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s;
-    }
+    .btn-kembali { margin-top: 1.5rem; background: #00f0ff; color: #000; border: none; padding: 0.8rem 1.5rem; border-radius: 10px; font-weight: bold; cursor: pointer; transition: background 0.3s, box-shadow 0.3s; }
     .btn-kembali:hover { background: #00c8d6; box-shadow: 0 0 15px #00f0ff; }
 
-    footer {
-      text-align: center; padding: 1rem;
-      background: rgba(0,0,0,0.7);
-      box-shadow: 0 -5px 15px rgba(0,240,255,0.2);
-    }
+    @media (max-width: 600px) { .payment-wrapper { padding: 1rem; } .glass { padding: 1rem; } #qrisBox img { max-height: 200px; } }
   </style>
 </head>
 <body>
+  <div class="nebula-bg"></div>
+
   <header>
-    <div class="logo">Nebula Store</div>
-    <ul class="nav-links">
-      <li><a href="index">Home</a></li>
-      <li><a href="produk">Produk</a></li>
-      <li><a href="bestseller">Best Seller</a></li>
-      <li><a href="flashsale">Flash Sale</a></li>
-      <li><a href="blog">Blog</a></li>
-      <li><a href="kontak">Kontak</a></li>
-    </ul>
+    <nav>
+      <div class="logo">Nebula Store</div>
+      <ul class="nav-links"><li><a href="index">Home</a></li><li><a href="produk">Produk</a></li><li><a href="bestseller">Best Seller</a></li><li><a href="flashsale">Flash Sale</a></li><li><a href="blog">Blog</a></li><li><a href="kontak">Kontak</a></li></ul>
+      <div class="music-toggle" onclick="toggleMusic()"><img id="musicIcon" src="https://cdn-icons-png.flaticon.com/512/1822/1822614.png" alt="Music" /></div>
+    </nav>
   </header>
 
   <main>
     <section class="hero"><h1>Pembayaran</h1></section>
 
+    <!-- Form Pembayaran -->
     <div class="payment-wrapper">
-      <div class="glass">
-        <h2>1. Pilih Produk</h2>
-        <select id="productSelect"><option value="" disabled selected>-- Pilih Produk --</option></select>
-        <p>Harga: <strong id="hargaTxt">-</strong></p>
-      </div>
-
-      <div class="glass">
-        <h2>2. Metode Pembayaran</h2>
-        <select id="metodeSelect">
-          <option value="" disabled selected>-- Pilih Metode --</option>
-          <option value="dana">Dana</option>
-          <option value="gopay">GoPay</option>
-          <option value="ovo">OVO</option>
-          <option value="qris">QRIS</option>
-        </select>
-        <div id="metodeInfo">
-          <div id="qrisBox"><p>Scan kode QRIS berikut:</p><img src="assets/images/qris.jpg" alt="QRIS" /></div>
-          <div id="rekInfo"></div>
-        </div>
-      </div>
-
-      <div class="glass">
-        <h2>3. Data Pembayaran</h2>
-        <form id="formPayment" onsubmit="handleBayar(event)">
-          <label>Atas Nama Pengirim</label><input type="text" id="namaPengirim" required />
-          <label>Nomor WhatsApp</label><input type="tel" id="waPengirim" required />
-          <label>Username Telegram</label><input type="text" id="telePengirim" required />
-          <label>Bukti Transfer (gambar)</label><input type="file" id="buktiTF" accept="image/*" required />
-          <button type="submit">Kirim & Buat Struk</button>
-          <p id="strukStatus"></p>
-        </form>
-      </div>
+      <div class="glass"><h2>1. Pilih Produk</h2><select id="productSelect"><option value="" disabled selected>-- Pilih Produk --</option></select><p>Harga: <strong id="hargaTxt">-</strong></p></div>
+      <div class="glass"><h2>2. Metode Pembayaran</h2><select id="metodeSelect"><option value="" disabled selected>-- Pilih Metode --</option><option value="dana">Dana</option><option value="gopay">GoPay</option><option value="ovo">OVO</option><option value="qris">QRIS</option></select><div id="metodeInfo"><div id="qrisBox" style="display:none;"><p>Scan kode QRIS berikut:</p><img src="assets/images/qris.jpg" alt="QRIS" /></div><div id="rekInfo" style="display:none;"></div></div></div>
+      <div class="glass"><h2>3. Data Pembayaran</h2><form id="formPayment" onsubmit="handleBayar(event)"><label>Atas Nama Pengirim</label><input type="text" id="namaPengirim" placeholder="Contoh: Andi Wijaya" required /><label>Nomor WhatsApp</label><input type="tel" id="waPengirim" placeholder="Contoh: 6281234567890" required /><label>Username Telegram</label><input type="text" id="telePengirim" placeholder="Contoh: @andi_wijaya" required /><label>Bukti Transfer (gambar)</label><input type="file" id="buktiTF" accept="image/*" required /><button type="submit">Kirim & Buat Struk</button><p id="strukStatus"></p></form></div>
     </div>
 
+    <!-- Loading Overlay -->
     <div class="loading-overlay" id="loadingOverlay"><div class="nebula-loader"></div></div>
 
-    <div id="strukBox" class="glass">
+    <!-- Struk (muncul setelah kirim) -->
+    <div id="strukBox" class="glass" style="display:none;">
       <h2>Struk Pembayaran</h2>
       <p class="id">ID Struk: <span id="strukId"></span></p>
       <p>Produk: <span id="strukProduk"></span></p>
@@ -197,27 +83,47 @@
   </main>
 
   <footer>
+    <div class="social-icons">
+      <a href="https://wa.me/6281234567890" target="_blank" title="WhatsApp"><img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" /></a>
+      <a href="https://t.me/username" target="_blank" title="Telegram"><img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" /></a>
+      <a href="https://tiktok.com/@resellergaming" target="_blank" title="TikTok"><img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok" /></a>
+    </div>
     <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
   </footer>
 
+  <audio id="bgMusic" loop><source src="assets/music/nebula.mp3" type="audio/mp3" /></audio>
+  <script src="js/main.js"></script>
   <script>
+    // ===== DATA PRODUK (lokal) =====
     const products = [
-      { id: 1, name: "Nebula Headset RGB", price: 250000 },
-      { id: 2, name: "Nebula Mouse Wireless", price: 150000 },
-      { id: 3, name: "Nebula Keyboard Mechanical", price: 350000 }
+      { id: 1, name: "Nebula Headset RGB", price: 250000, image: "assets/images/headset.jpg", isBestSeller: true, isFlashSale: true },
+      { id: 2, name: "Nebula Mouse Wireless", price: 150000, image: "assets/images/mouse.jpg", isBestSeller: true, isFlashSale: false },
+      { id: 3, name: "Nebula Keyboard Mechanical", price: 350000, image: "assets/images/keyboard.jpg", isBestSeller: false, isFlashSale: true }
     ];
+
+    // ===== ISI PILIHAN PRODUK =====
     const productSelect = document.getElementById("productSelect");
     const hargaTxt = document.getElementById("hargaTxt");
+    const urlParams = new URLSearchParams(location.search);
+    const prodParam = urlParams.get("product");
+    const priceParam = urlParams.get("price");
+
+    // Isi dropdown
     products.forEach(p => {
       const opt = document.createElement("option");
       opt.value = p.price;
       opt.textContent = p.name;
+      if (p.name === prodParam) opt.selected = true;
       productSelect.appendChild(opt);
     });
+    if (prodParam && priceParam) hargaTxt.textContent = `Rp${Number(priceParam).toLocaleString()}`;
+
     productSelect.onchange = () => {
-      hargaTxt.textContent = `Rp${Number(productSelect.value).toLocaleString()}`;
+      const harga = Number(productSelect.value);
+      hargaTxt.textContent = `Rp${harga.toLocaleString()}`;
     };
 
+    // ===== METODE BAYAR =====
     const metodeSelect = document.getElementById("metodeSelect");
     const dataRek = {
       dana: { nomor: "0857-1234-5678", atas: "A/N Reseller Gaming Dana" },
@@ -226,13 +132,14 @@
     };
     metodeSelect.onchange = () => {
       const metode = metodeSelect.value;
-      document.getElementById("qrisBox").style.display = "none";
-      document.getElementById("rekInfo").style.display = "none";
-      if (metode === "qris") document.getElementById("qrisBox").style.display = "block";
+      const qrisBox = document.getElementById("qrisBox");
+      const rekInfo = document.getElementById("rekInfo");
+      qrisBox.style.display = rekInfo.style.display = "none";
+      if (metode === "qris") qrisBox.style.display = "block";
       else if (dataRek[metode]) {
         const rek = dataRek[metode];
-        document.getElementById("rekInfo").innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
-        document.getElementById("rekInfo").style.display = "block";
+        rekInfo.innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
+        rekInfo.style.display = "block";
       }
     };
 
@@ -293,4 +200,4 @@
     }
   </script>
 </body>
-          </html>
+                             </html>
