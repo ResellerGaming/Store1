@@ -110,7 +110,28 @@
     max-width: 250px;
   }
     }
-</main>
+
+  /* ===== QRIS BOX - TIDAK KELUAR LAYAR ===== */
+#qrisBox {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+#qrisBox img {
+  max-width: 100%;
+  height: auto;
+  max-height: 300px; /* batas tinggi */
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.5);
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 600px) {
+  #qrisBox img {
+    max-height: 200px; /* lebih kecil di hp */
+  }
+    }
+
   </style>
 </head>
 <body>
@@ -156,7 +177,13 @@
         <option value="gopay">GoPay</option>
         <option value="ovo">OVO</option>
       </select>
-      <div id="metodeInfo"></div>
+      <div id="metodeInfo">
+  <div id="qrisBox" style="display:none;">
+    <p>Scan kode QRIS berikut:</p>
+    <img src="assets/images/qris.jpg" alt="QRIS" />
+  </div>
+  <div id="rekInfo" style="display:none;"></div>
+      </div>
     </div>
 
     <!-- Data Pembayaran -->
@@ -235,8 +262,20 @@
 
     metodeSelect.onchange = () => {
       const metode = metodeSelect.value;
-      if (metode === "qris") {
-        metodeInfo.innerHTML = `<p>Scan kode QRIS berikut:</p><img src="assets/images/qris.jpg" alt="QRIS">`;
+      const qrisBox = document.getElementById("qrisBox");
+const rekInfo = document.getElementById("rekInfo");
+
+if (metode === "qris") {
+  qrisBox.style.display = "block";
+  rekInfo.style.display = "none";
+} else if (dataRek[metode]) {
+  const rek = dataRek[metode];
+  rekInfo.innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
+  rekInfo.style.display = "block";
+  qrisBox.style.display = "none";
+} else {
+  qrisBox.style.display = "none";
+  rekInfo.style.display = "none";
       } else if (dataRek[metode]) {
         const rek = dataRek[metode];
         metodeInfo.innerHTML = `<p>Nomor: <strong>${rek.nomor}</strong><br>${rek.atas}</p>`;
