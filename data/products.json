@@ -6,7 +6,8 @@
     "image": "assets/images/headset.jpg",
     "isBestSeller": true,
     "isFlashSale": true,
-    "flashSaleUntil": "2025-09-20T23:59:59"
+    "flashSaleUntil": "2025-09-20T23:59:59",
+    "category": "headset"
   },
   {
     "id": 2,
@@ -14,7 +15,8 @@
     "price": 150000,
     "image": "assets/images/mouse.jpg",
     "isBestSeller": true,
-    "isFlashSale": false
+    "isFlashSale": false,
+    "category": "mouse"
   },
   {
     "id": 3,
@@ -22,6 +24,25 @@
     "price": 350000,
     "image": "assets/images/keyboard.jpg",
     "isBestSeller": false,
-    "isFlashSale": true
+    "isFlashSale": true,
+    "category": "keyboard"
+  },
+  {
+    "id": 4,
+    "name": "Nebula Monitor 27\"",
+    "price": 1200000,
+    "image": "assets/images/monitor.jpg",
+    "isBestSeller": true,
+    "isFlashSale": false,
+    "category": "monitor"
+  },
+  {
+    "id": 5,
+    "name": "Nebula Gaming Chair",
+    "price": 800000,
+    "image": "assets/images/chair.jpg",
+    "isBestSeller": false,
+    "isFlashSale": true,
+    "category": "chair"
   }
 ]
