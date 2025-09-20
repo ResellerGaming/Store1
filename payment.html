@@ -6,7 +6,7 @@
   <title>Payment - Nebula Store</title>
   <link rel="stylesheet" href="css/style.css" />
   <style>
-    body { display: flex; flex-direction: column; min-height: 100vh; }
+    body { display: flex; flex-direction: column; min-height: 100vh; background: #000; color: #fff; font-family: 'Segoe UI', sans-serif; }
     main { flex: 1; padding: 2rem 1rem; }
     .payment-wrapper { display: flex; flex-direction: column; gap: 2rem; padding: 2rem 1rem; max-width: 900px; margin: auto; }
     .glass { background: rgba(255,255,255,0.1); backdrop-filter: blur(10px); border-radius: 15px; padding: 1.5rem; box-shadow: 0 0 20px rgba(0,240,255,0.3); color: #fff; word-break: break-word; }
@@ -143,7 +143,7 @@
       }
     };
 
-    // ===== KIRIM KE TELEGRAM (FormData = tanpa error) =====
+    // ===== KIRIM KE TELEGRAM (tanpa error) =====
     async function handleBayar(e) {
       e.preventDefault();
       const status = document.getElementById("strukStatus");
@@ -167,11 +167,11 @@
         // ===== PERBAIKAN: ambil base64 tanpa prefix =====
         const base64 = reader.result.split(",")[1]; // hapus "data:image/...;base64,"
 
-        // ===== PERBAIKAN: kompres jika > 5 MB =====
-        const maxSize = 5 * 1024 * 1024; // 5 MB (Telegram limit ~10 MB)
+        // ===== PERBAIKAN: kompres jika > 1 MB =====
+        const maxSize = 1 * 1024 * 1024; // 1 MB (Telegram limit ~10 MB)
         if (base64.length > maxSize) {
           document.getElementById("loadingOverlay").style.display = "none";
-          status.textContent = "❌ Gambar terlalu besar (max 5 MB).";
+          status.textContent = "❌ Gambar terlalu besar (max 1 MB).";
           return;
         }
 
@@ -207,8 +207,6 @@
             document.getElementById("strukWA").textContent = wa;
             document.getElementById("strukTele").textContent = tele;
             document.getElementById("strukBox").style.display = "block";
-
-            // Scroll otomatis ke struk
             document.getElementById("strukBox").scrollIntoView({ behavior: "smooth" });
           } else {
             status.textContent = "❌ Gagal kirim ke Telegram.";
@@ -226,4 +224,4 @@
     }
   </script>
 </body>
-      </html>
+  </html>
