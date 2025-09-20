@@ -22,3 +22,13 @@ function createProductCard(product) {
   `;
   return card;
 }
+
+// --- flashsale.js (untuk flashsale.html) ---
+fetch('data/produk.json')
+  .then(r => r.json())
+  .then(data => {
+    // asumsi ada property "flashsale: true" pada JSON
+    const list = data.filter(p => p.flashsale);
+    renderProduk(list); // fungsi render sama seperti search.js
+    // search & filter tetap berfungsi di list ini
+  });
