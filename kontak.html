@@ -14,14 +14,16 @@
       <div class="logo">Nebula Store</div>
       <div class="hamburger" onclick="toggleMenu()">☰</div>
       <ul class="nav-links" id="navLinks">
-        <li><a href="index.html">Home</a></li>
-        <li><a href="produk.html">Produk</a></li>
-        <li><a href="bestseller.html">Best Seller</a></li>
-        <li><a href="flashsale.html">Flash Sale</a></li>
-        <li><a href="blog.html">Blog</a></li>
-        <li><a href="kontak.html">Kontak</a></li>
+        <li><a href="index">Home</a></li>
+        <li><a href="produk">Produk</a></li>
+        <li><a href="bestseller">Best Seller</a></li>
+        <li><a href="flashsale">Flash Sale</a></li>
+        <li><a href="blog">Blog</a></li>
+        <li><a href="kontak">Kontak</a></li>
       </ul>
-      <div class="music-toggle" onclick="toggleMusic()">🎵</div>
+      <div class="music-toggle" onclick="toggleMusic()">
+  <img id="musicIcon" src="https://cdn-icons-png.flaticon.com/512/1822/1822614.png" alt="Music" />
+      </div>
     </nav>
   </header>
 
@@ -33,15 +35,15 @@
     <section class="kontak-wrapper">
       <!-- Tombol Kontak Langsung -->
       <div class="kontak-buttons">
-        <a href="https://wa.me/6281234567890" target="_blank" class="kontak-btn wa">📲 WhatsApp</a>
-        <a href="https://whatsapp.com/channel/invite-link" target="_blank" class="kontak-btn wa-channel">📢 Channel WA</a>
-        <a href="https://t.me/username" target="_blank" class="kontak-btn tele">✈️ Telegram</a>
-        <a href="https://t.me/channel-link" target="_blank" class="kontak-btn tele-channel">📡 Channel Telegram</a>
+        <a href="https://whatsapp.com/channel/0029VbAt2GM7j6g6d13Xx01X" target="_blank" class="kontak-btn wa">📲 WhatsApp</a>
+        <a href="https://whatsapp.com/channel/0029VbAt2GM7j6g6d13Xx01X" target="_blank" class="kontak-btn wa-channel">📢 Channel WA</a>
+        <a href="https://t.me/ResellerGamingoffcial" target="_blank" class="kontak-btn tele">✈️ Telegram</a>
+        <a href="https://t.me/InfoResellerGamingDEV" target="_blank" class="kontak-btn tele-channel">📡 Channel Telegram</a>
       </div>
 
       <!-- Form Pesan -->
       <div class="form-box">
-        <h2>Kirim Pesan ke Telegram</h2>
+        <h2>Kirim Pesan ke Admin</h2>
         <form id="telegramForm">
           <label>Nama:</label>
           <input type="text" id="nama" required />
@@ -57,12 +59,18 @@
   </main>
 
   <footer>
-    <div class="social-icons">
-      <a href="https://wa.me/6281234567890" target="_blank">📲</a>
-      <a href="https://t.me/username" target="_blank">✈️</a>
-      <a href="https://tiktok.com/@resellergaming" target="_blank">🎵</a>
-    </div>
-    <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
+  <div class="social-icons">
+    <a href="https://whatsapp.com/channel/0029VbAt2GM7j6g6d13Xx01X" target="_blank" title="WhatsApp">
+      <img src="https://cdn-icons-png.flaticon.com/512/733/733585.png" alt="WhatsApp" />
+    </a>
+    <a href="https://t.me/InfoResellerGamingDEV" target="_blank" title="Telegram">
+      <img src="https://cdn-icons-png.flaticon.com/512/2111/2111646.png" alt="Telegram" />
+    </a>
+    <a href="https://tiktok.com/@reseller_gaming" target="_blank" title="TikTok">
+      <img src="https://cdn-icons-png.flaticon.com/512/3046/3046120.png" alt="TikTok" />
+    </a>
+  </div>
+  <p>&copy; 2025 Reseller Gaming. All rights reserved.</p>
   </footer>
 
   <audio id="bgMusic" loop>
@@ -72,8 +80,8 @@
   <script src="js/main.js"></script>
   <script>
     // Kirim pesan ke Telegram via bot
-    const botToken = "GANTI_DENGAN_BOT_TOKEN_ANDA";
-    const chatId = "GANTI_DENGAN_CHAT_ID_ANDA";
+    const botToken = "8100552041:AAHGni7ofeEUwYdgicrwG91njbwqBLD9H_U";
+    const chatId = "7670525689";
 
     document.getElementById("telegramForm").addEventListener("submit", function (e) {
       e.preventDefault();
