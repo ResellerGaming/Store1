@@ -4,7 +4,7 @@
   <meta charset="UTF-8"/>
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Nebula Store</title>
-  <link rel="stylesheet" href="css/style.css"
+  <link rel="stylesheet" href="css/style.css" />
   <style>
     *{box-sizing:border-box;margin:0;padding:0;font-family:'Segoe UI',sans-serif;color:#fff}
     body{background:var(--bg) url('https://i.ibb.co/3WfXj0b/stars.png') top center no-repeat fixed;background-size:cover}
@@ -120,7 +120,7 @@
   let products = [];
 
   /* ---------- load data dari data/produk.json ---------- */
-  fetch("data/produk.json")
+  fetch("data/products.json")
     .then(res => res.json())
     .then(data => {
       products = data;
